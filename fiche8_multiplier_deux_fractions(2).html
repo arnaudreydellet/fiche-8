@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiche remédiation · 8 — Multiplier deux fractions entre elles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=OpenDyslexic:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --vert-fort:#108c5a; --vert-bord:#0a6e3f; --vert-pale:#edf7f2;
+      --vert-clair:#c8edd9; --vert-moyen:#a8dfc4; --vert-doux:#d4f0e2;
+      --texte-fonce:#0d2b1f; --texte-vert:#108c5a;
+      --badge-bg:rgba(10,110,63,0.13); --badge-texte:#0a6e3f;
+      --or:#d4820a; --or-pale:rgba(212,130,10,0.12); --or-bord:#b06a20;
+    }
+    body.dys * { font-family:'OpenDyslexic',Arial,sans-serif !important; line-height:1.9 !important; }
+    @keyframes gradientWave { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes btnGlow { 0%{box-shadow:0 0 0 0 rgba(10,110,63,0)} 50%{box-shadow:0 0 0 10px rgba(10,110,63,0.15),0 0 0 22px rgba(10,110,63,0.07)} 100%{box-shadow:0 0 0 0 rgba(10,110,63,0)} }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(212,130,10,0.5)} 50%{box-shadow:0 0 0 10px rgba(212,130,10,0)} }
+    @keyframes popIn { 0%{opacity:0;transform:scale(0.5)} 70%{transform:scale(1.1)} 100%{opacity:1;transform:scale(1)} }
+    @keyframes slideUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    html { height:100%; }
+    body { min-height:100vh; display:flex; align-items:flex-start; justify-content:center; font-family:Arial,sans-serif; overflow-y:auto; }
+    .header { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:16px 28px;background:rgba(255,255,255,0.55);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.7); }
+    .header-ligne { font-size:18px;font-weight:500;color:var(--texte-fonce);display:flex;align-items:center;gap:10px; }
+    .header-sep { color:var(--vert-fort);font-weight:700; }
+    .header-nom { font-weight:700;color:var(--vert-bord); }
+    .header-dys { position:absolute;right:20px;display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 14px;border-radius:999px;border:1.5px solid rgba(10,110,63,0.2);background:transparent;font-family:Arial,sans-serif;transition:all 0.2s; }
+    .header-dys:hover { background:rgba(10,110,63,0.07); }
+    .dys-dot { width:30px;height:17px;border-radius:999px;background:#ccc;position:relative;flex-shrink:0;transition:background 0.3s; }
+    .dys-dot::after { content:'';position:absolute;top:2.5px;left:2.5px;width:12px;height:12px;border-radius:50%;background:#fff;transition:transform 0.3s cubic-bezier(.22,1,.36,1);box-shadow:0 1px 3px rgba(0,0,0,0.2); }
+    .header-dys.on .dys-dot { background:var(--vert-fort); }
+    .header-dys.on .dys-dot::after { transform:translateX(13px); }
+    .dys-lbl { font-size:11px;font-weight:700;color:var(--texte-fonce);letter-spacing:0.04em; }
+    .ecran { display:flex;align-items:center;justify-content:center;width:100%;min-height:100vh;padding-top:80px;padding-bottom:40px; }
+    .ecran.cache { display:none; }
+    .fond-vert  { background:linear-gradient(135deg,var(--vert-clair),var(--vert-pale),var(--vert-moyen),var(--vert-pale),var(--vert-doux));background-size:400% 400%;animation:gradientWave 8s ease infinite; }
+    .fond-chaud { background:linear-gradient(135deg,#fdf6ec,#fef9f0,#fcebd8,#fef5e7,#fdf0e0);background-size:400% 400%;animation:gradientWave 8s ease infinite; }
+    .carte { background:rgba(255,255,255,0.62);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.85);border-radius:28px;padding:56px 64px 52px;display:flex;flex-direction:column;align-items:center;gap:14px;max-width:480px;width:90%; }
+    .carte.anime { animation:fadeUp 0.8s cubic-bezier(.22,1,.36,1) both; }
+    .cours-carte { background:rgba(255,255,255,0.70);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.9);border-radius:28px;padding:40px 52px 48px;display:flex;flex-direction:column;align-items:center;gap:0;max-width:680px;width:92%; }
+    .quiz-carte { background:rgba(255,255,255,0.62);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.85);border-radius:28px;padding:40px 48px 44px;display:flex;flex-direction:column;align-items:center;gap:20px;max-width:580px;width:92%; }
+    .badge { font-size:11px;font-weight:700;color:var(--badge-texte);background:var(--badge-bg);padding:5px 18px;border-radius:999px;letter-spacing:0.07em;text-transform:uppercase; }
+    .titre { font-size:clamp(22px,4vw,30px);font-weight:500;color:var(--texte-fonce);text-align:center;line-height:1.25; }
+    .titre .accent { color:var(--texte-vert); }
+    .texte-intro { font-size:18px;font-weight:400;color:var(--texte-fonce);text-align:center;line-height:1.6;max-width:340px; }
+    .texte-intro strong { color:var(--vert-bord);font-weight:700; }
+    .accueil-dys { margin-top:6px;display:flex;align-items:center;gap:10px;cursor:pointer;padding:8px 18px;border-radius:999px;border:1.5px solid rgba(10,110,63,0.2);background:transparent;font-family:Arial,sans-serif;transition:all 0.2s; }
+    .accueil-dys:hover { background:rgba(10,110,63,0.06); }
+    .accueil-dys-dot { width:34px;height:19px;border-radius:999px;background:#ccc;position:relative;flex-shrink:0;transition:background 0.3s; }
+    .accueil-dys-dot::after { content:'';position:absolute;top:2.5px;left:2.5px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform 0.3s cubic-bezier(.22,1,.36,1);box-shadow:0 1px 3px rgba(0,0,0,0.2); }
+    .accueil-dys.on .accueil-dys-dot { background:var(--vert-fort); }
+    .accueil-dys.on .accueil-dys-dot::after { transform:translateX(15px); }
+    .accueil-dys-texte { text-align:left; }
+    .accueil-dys-lbl { font-size:12px;font-weight:700;color:var(--texte-fonce);display:block; }
+    .accueil-dys-sub  { font-size:10px;color:#6b7c6b;display:block;margin-top:1px; }
+    .btn { margin-top:22px;padding:15px 54px;border-radius:999px;border:2.5px solid var(--vert-bord);background:transparent;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.04em;color:var(--vert-bord);animation:btnGlow 2.2s ease-in-out infinite;transition:background 0.2s,color 0.2s,transform 0.15s;font-family:inherit; }
+    .btn:hover { background:var(--vert-bord);color:#fff;transform:scale(1.05); }
+    .btn:active { transform:scale(0.97); }
+    .cours-prog-header { display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:24px; }
+    .cours-prog-badge { font-size:13px;font-weight:700;background:var(--or-pale);color:var(--or-bord);padding:5px 18px;border-radius:999px; }
+    .cours-prog-num { font-size:11px;font-weight:600;color:#c8913a;letter-spacing:0.05em;text-transform:uppercase; }
+    .cours-prog-track { width:100%;height:6px;background:rgba(180,100,20,0.12);border-radius:999px;overflow:hidden;margin-bottom:24px; }
+    .cours-prog-fill { height:100%;background:var(--or);border-radius:999px;transition:width 0.6s cubic-bezier(.22,1,.36,1);width:0%; }
+    .regle-bloc { width:100%;background:var(--or-pale);border-left:4px solid var(--or);border-radius:0 12px 12px 0;padding:16px 20px;margin-bottom:24px; }
+    .regle-label { font-size:10px;font-weight:700;color:var(--or-bord);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px; }
+    .regle-texte { font-size:15px;font-weight:500;color:#3d2000;line-height:1.7; }
+    .anim-section { width:100%;background:rgba(212,130,10,0.05);border:1px solid rgba(212,130,10,0.2);border-radius:16px;padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:20px; }
+    .anim-section-label { font-size:10px;font-weight:700;color:var(--or-bord);letter-spacing:0.08em;text-transform:uppercase;align-self:flex-start; }
+    .frac-chiffre { font-size:46px;font-weight:700;color:#3d2000;line-height:1;padding:5px 10px;border-radius:10px;transition:all 0.4s cubic-bezier(.22,1,.36,1); }
+    .frac-barre { height:3.5px;background:#3d2000;border-radius:2px;transition:background 0.4s; }
+    .hl-or   { color:var(--or) !important;background:rgba(212,130,10,0.15);animation:pulse 1.2s ease infinite; }
+    .hl-vert { color:#0a6e3f !important;background:rgba(16,140,90,0.12); }
+    .op-tag-vert { display:none;font-size:11px;font-weight:700;color:#0a6e3f;background:rgba(16,140,90,0.1);border:1px solid rgba(16,140,90,0.25);border-radius:6px;padding:2px 8px;white-space:nowrap;animation:popIn 0.4s cubic-bezier(.22,1,.36,1) both; }
+    .etape-bulle { width:100%;background:rgba(255,255,255,0.85);border:1.5px solid rgba(212,130,10,0.25);border-radius:14px;padding:14px 18px;text-align:center; }
+    .etape-texte { font-size:15px;font-weight:600;color:#3d2000;line-height:1.55; }
+    .etape-texte .acc { color:var(--or);font-weight:700; }
+    .etape-texte .vrt { color:#0a6e3f;font-weight:700; }
+    .btn-etape { padding:11px 32px;border-radius:999px;border:2px solid var(--or);background:transparent;font-size:14px;font-weight:700;color:var(--or);cursor:pointer;transition:all 0.2s;font-family:inherit; }
+    .btn-etape:hover { background:var(--or);color:#fff;transform:scale(1.04); }
+    .btn-etape.recommencer { border-color:#0a6e3f;color:#0a6e3f; }
+    .btn-etape.recommencer:hover { background:#0a6e3f;color:#fff; }
+    .btn-compris-wrap { width:100%;display:flex;justify-content:center;margin-top:24px; }
+    .btn-compris { padding:13px 48px;border-radius:999px;border:2.5px solid var(--or);background:transparent;font-size:15px;font-weight:700;cursor:pointer;color:var(--or);transition:background 0.2s,color 0.2s,transform 0.15s;font-family:inherit; }
+    .btn-compris:hover { background:var(--or);color:#fff;transform:scale(1.04); }
+    .ex-input { width:76px;height:52px;border:2px solid rgba(16,140,90,0.35);border-radius:10px;background:rgba(255,255,255,0.85);font-size:24px;font-weight:700;color:#0a6e3f;text-align:center;outline:none;font-family:inherit;transition:border-color 0.2s,background 0.2s; }
+    .ex-input:focus { border-color:var(--or); }
+    .ex-bulle-box { width:100%;background:rgba(255,255,255,0.85);border:1.5px solid rgba(212,130,10,0.25);border-radius:14px;padding:14px 18px;text-align:center; }
+    .ex-bulle-txt { font-size:15px;font-weight:600;color:#3d2000;line-height:1.6; }
+    .ex-fb { font-size:14px;font-weight:700;padding:8px 18px;border-radius:10px;opacity:0;transition:opacity 0.3s;text-align:center;width:100%; }
+    .btn-ex { padding:11px 32px;border-radius:999px;border:2px solid var(--or);background:transparent;font-size:14px;font-weight:700;color:var(--or);cursor:pointer;font-family:inherit;transition:all 0.2s; }
+    .btn-ex:hover { background:var(--or);color:#fff; }
+    .prog-wrap { width:100%; }
+    .prog-label { font-size:12px;font-weight:700;color:var(--vert-bord);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:8px;text-align:center; }
+    .prog-track { width:100%;height:6px;background:rgba(10,110,63,0.12);border-radius:999px;overflow:hidden; }
+    .prog-fill  { height:100%;background:var(--vert-fort);border-radius:999px;transition:width 0.5s cubic-bezier(.22,1,.36,1);width:0%; }
+    .consigne-f { font-size:18px;font-weight:500;color:var(--texte-fonce);text-align:center;line-height:1.6; }
+    .fq { display:inline-flex;flex-direction:column;align-items:center;gap:4px; }
+    .fq-n, .fq-d { font-size:46px;font-weight:700;color:var(--texte-fonce);line-height:1; }
+    .fq-b { width:58px;height:3px;background:var(--texte-fonce);border-radius:2px; }
+    .op-q { font-size:34px;font-weight:700;color:var(--vert-bord); }
+    .quiz-btn-val { padding:13px 28px;border-radius:14px;border:2px solid var(--vert-bord);background:transparent;font-size:15px;font-weight:700;color:var(--vert-bord);cursor:pointer;transition:background 0.18s,color 0.18s,transform 0.15s;font-family:inherit; }
+    .quiz-btn-val:hover { background:var(--vert-bord);color:#fff;transform:scale(1.04); }
+    .feedback { font-size:15px;font-weight:700;padding:10px 24px;border-radius:12px;min-height:40px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;text-align:center;width:100%; }
+    .feedback.ok  { background:rgba(16,140,90,0.15);color:var(--vert-bord);opacity:1; }
+    .feedback.nok { background:rgba(200,50,50,0.12);color:#a83232;opacity:1; }
+    .quiz-input { width:80px;height:54px;border:2px solid rgba(10,110,63,0.3);border-radius:12px;background:rgba(255,255,255,0.8);font-size:26px;font-weight:700;color:var(--texte-fonce);text-align:center;outline:none;font-family:inherit;transition:border-color 0.2s; }
+    .quiz-input:focus { border-color:var(--vert-fort); }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-ligne">
+      <span id="header-lycee">—</span><span class="header-sep">·</span>
+      <span id="header-classe">—</span><span class="header-sep">·</span>
+      <span class="header-nom" id="header-nom">—</span>
+    </div>
+    <button class="header-dys" id="header-dys" onclick="basculerDYS()">
+      <div class="dys-dot"></div><span class="dys-lbl">DYS</span>
+    </button>
+  </div>
+
+  <!-- CHARGEMENT -->
+  <div class="ecran fond-vert" id="ecran-chargement">
+    <div class="carte anime">
+      <div class="badge">Fiche remédiation · 8</div>
+      <div class="titre">Chargement<br><span class="accent">en cours…</span></div>
+    </div>
+  </div>
+
+  <!-- ACCUEIL -->
+  <div class="ecran fond-vert cache" id="ecran-accueil">
+    <div class="carte anime">
+      <div class="badge">Fiche remédiation · 8</div>
+      <div class="titre">Multiplier une fraction<br><span class="accent">par un entier</span></div>
+      <button class="btn" onclick="allerVers('ecran-accueil','ecran-retenir')">Commencer</button>
+      <button class="accueil-dys" id="accueil-dys" onclick="basculerDYS()">
+        <div class="accueil-dys-dot"></div>
+        <div class="accueil-dys-texte">
+          <span class="accueil-dys-lbl">Mode DYS</span>
+          <span class="accueil-dys-sub">Police et espacement adaptés</span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- À RETENIR -->
+  <div class="ecran fond-chaud cache" id="ecran-retenir">
+    <div class="cours-carte">
+      <div class="cours-prog-header">
+        <div class="cours-prog-badge">À retenir</div>
+        <div class="cours-prog-num">Multiplier deux fractions entre elles</div>
+      </div>
+      <div class="regle-bloc">
+        <div class="regle-label">La règle</div>
+        <div class="regle-texte">
+          Pour multiplier deux fractions, on multiplie les <strong style="color:#d4820a;">numérateurs entre eux</strong> et les <strong style="color:#d4820a;">dénominateurs entre eux</strong>.<br><br>
+          On obtient ainsi le numérateur et le dénominateur du résultat en une seule étape.
+        </div>
+      </div>
+
+      <div class="anim-section">
+        <div class="anim-section-label">Exemple — suis les étapes</div>
+
+        <div style="display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap;">
+          <!-- Fraction originale -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+            <div class="frac-chiffre" id="a-fn">2</div>
+            <div class="frac-barre" style="width:56px;" id="a-fb"></div>
+            <div class="frac-chiffre" id="a-fd">3</div>
+          </div>
+          <div style="font-size:36px;font-weight:700;color:#b06a20;">×</div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+            <div class="frac-chiffre" id="a-ent-n">3</div>
+            <div class="frac-barre" style="width:56px;" id="a-ent-b"></div>
+            <div class="frac-chiffre" id="a-ent-d">5</div>
+          </div>
+
+          <!-- Zone résultat (cachée au départ) -->
+          <div id="zone-res" style="display:none;align-items:center;gap:16px;">
+            <div style="font-size:28px;font-weight:700;color:#0a6e3f;">=</div>
+            <div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div class="frac-chiffre hl-vert" id="a-rn" style="opacity:0;">6</div>
+                <span class="op-tag-vert" id="tag-n">2 × 3 = 6</span>
+              </div>
+              <div class="frac-barre" style="width:56px;background:#0a6e3f;opacity:0;" id="a-rb"></div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div class="frac-chiffre hl-vert" id="a-rd" style="opacity:0;">15</div>
+                <span class="op-tag-vert" id="tag-d">3 × 5 = 15</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="etape-bulle" id="etape-bulle">
+          <div class="etape-texte" id="etape-texte">Appuie sur <strong style="color:#d4820a;">Étape suivante</strong> pour commencer l'exemple.</div>
+        </div>
+        <button class="btn-etape" id="btn-etape" onclick="etapeSuivante()">Étape suivante →</button>
+      </div>
+
+      <div class="btn-compris-wrap">
+        <button class="btn-compris" onclick="allerVers('ecran-retenir','ecran-cours');setTimeout(()=>chargerEx(0),500)">Compris, on s'entraîne !</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCICES -->
+  <div class="ecran fond-chaud cache" id="ecran-cours">
+    <div class="cours-carte">
+      <div style="width:100%;margin-bottom:24px;">
+        <div class="cours-prog-header">
+          <div class="cours-prog-badge" id="cours-badge">Exercice 1 / 6</div>
+          <div class="cours-prog-num">Multiplier deux fractions entre elles</div>
+        </div>
+        <div class="cours-prog-track"><div class="cours-prog-fill" id="cours-fill"></div></div>
+      </div>
+
+      <div style="width:100%;background:rgba(212,130,10,0.05);border:1px solid rgba(212,130,10,0.18);border-radius:14px;padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:20px;">
+
+        <!-- Opération affichée -->
+        <div style="display:flex;align-items:center;gap:18px;justify-content:center;flex-wrap:wrap;">
+          <!-- Fraction 1 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="font-size:52px;font-weight:700;color:#3d2000;line-height:1;" id="ex-fn1">1</div>
+            <div style="height:3px;background:#3d2000;border-radius:2px;width:60px;"></div>
+            <div style="font-size:52px;font-weight:700;color:#3d2000;line-height:1;" id="ex-fd1">2</div>
+          </div>
+          <div style="font-size:40px;font-weight:700;color:#b06a20;">×</div>
+          <!-- Fraction 2 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="font-size:52px;font-weight:700;color:#3d2000;line-height:1;" id="ex-fn2">1</div>
+            <div style="height:3px;background:#3d2000;border-radius:2px;width:60px;"></div>
+            <div style="font-size:52px;font-weight:700;color:#3d2000;line-height:1;" id="ex-fd2">3</div>
+          </div>
+          <div style="font-size:36px;font-weight:700;color:#b06a20;">=</div>
+          <!-- Champs résultat -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <input type="number" id="ex-rn" class="ex-input" />
+            <div style="height:3px;background:#0a6e3f;border-radius:2px;width:76px;"></div>
+            <input type="number" id="ex-rd" class="ex-input" disabled />
+          </div>
+        </div>
+
+        <div class="ex-bulle-box" id="ex-bulle">
+          <div class="ex-bulle-txt" id="ex-bulle-txt">Écris le <strong style="color:#d4820a;">numérateur</strong> du résultat.</div>
+        </div>
+        <div class="ex-fb" id="ex-fb"></div>
+        <button class="btn-ex" id="ex-btn" onclick="exValider()">Valider →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSITION QUIZ -->
+  <div class="ecran fond-vert cache" id="ecran-transition-final">
+    <div class="carte anime">
+      <div class="badge">Vérification finale</div>
+      <div class="titre">Maintenant<br>prouve que tu as<br><span class="accent">bien compris !</span></div>
+      <div class="texte-intro">Tu vas voir 6 multiplications.<br>Trouve le <strong>résultat</strong> à chaque fois 💪<br><small style="color:var(--texte-vert);">Sans simplifier</small></div>
+      <button class="btn" onclick="versQuizFinal()">C'est parti !</button>
+    </div>
+  </div>
+
+  <!-- QUIZ FINAL -->
+  <div class="ecran fond-vert cache" id="ecran-quiz-final">
+    <div class="quiz-carte">
+      <div class="prog-wrap">
+        <div class="prog-label" id="prog-label-f">Exercice 1 / 6</div>
+        <div class="prog-track"><div class="prog-fill" id="prog-fill-f"></div></div>
+      </div>
+      <div class="consigne-f">Calcule le <span style="color:var(--vert-bord);font-weight:700;">résultat</span> :</div>
+      <div style="display:flex;align-items:center;gap:14px;justify-content:center;flex-wrap:wrap;margin:8px 0;">
+        <div id="add-quiz-f" style="display:flex;align-items:center;gap:14px;"></div>
+        <div style="font-size:34px;font-weight:700;color:var(--vert-bord);">=</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <input type="number" id="quiz-rn" class="quiz-input" />
+          <div style="width:80px;height:3px;background:var(--texte-fonce);border-radius:2px;"></div>
+          <input type="number" id="quiz-rd" class="quiz-input" disabled />
+        </div>
+      </div>
+      <button class="quiz-btn-val" onclick="repondreFinal()">Valider</button>
+      <div class="feedback" id="feedback-f"></div>
+    </div>
+  </div>
+
+  <!-- RÉUSSI -->
+  <div class="ecran fond-vert cache" id="ecran-final-ok">
+    <div class="carte anime">
+      <div class="badge" style="background:rgba(16,140,90,0.15);color:#0a6e3f;">Notion maîtrisée ✓</div>
+      <div class="titre">Bravo <span class="accent" id="prenom-ok"></span> ! 🎉</div>
+      <div class="texte-intro" id="texte-ok"></div>
+    </div>
+  </div>
+
+  <!-- À REVOIR -->
+  <div class="ecran fond-vert cache" id="ecran-final-revoir">
+    <div class="carte anime">
+      <div class="badge" style="background:rgba(200,50,50,0.12);color:#a83232;">À revoir</div>
+      <div class="titre">Pas encore <span class="accent" id="prenom-revoir"></span>…</div>
+      <div class="texte-intro" id="texte-revoir"></div>
+      <button class="btn" onclick="allerVers('ecran-final-revoir','ecran-retenir');reinitAnim()">Revoir le cours</button>
+    </div>
+  </div>
+
+  <!-- BLOQUÉ -->
+  <div class="ecran fond-vert cache" id="ecran-bloque">
+    <div class="carte anime">
+      <div class="badge" style="background:rgba(200,50,50,0.12);color:#a83232;">Aide en route 🙋</div>
+      <div class="titre">Ton prof va venir<br>t'aider <span class="accent" id="prenom-bloque"></span></div>
+      <div class="texte-intro">Tu as fait 3 tentatives.<br>Ton enseignant a été alerté et va passer te voir.<br><br>Pas de panique, c'est normal d'avoir besoin d'aide !</div>
+    </div>
+  </div>
+
+<script>
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxlBMjVXIg58lsopoeQ5sEZW-jcQIOrOtnWwCGVtHLGjcmpi9exaYZ3oAEre4deZum2/exec';
+  const FICHE_ID = 'fractions_mult_fractions';
+  const THEME = 'Fractions'; const NIVEAU = '5ème'; const MAX_TENTATIVES = 3;
+
+  const params = new URLSearchParams(window.location.search);
+  const nom       = params.get('nom')        || 'Élève';
+  const classe    = params.get('classe')     || '—';
+  const lycee     = params.get('lycee')      || '—';
+  const email     = params.get('email')      || '';
+  const prof      = params.get('prof')       || '';
+  const profEmail = params.get('prof_email') || '';
+
+  document.getElementById('header-lycee').textContent = lycee;
+  document.getElementById('header-classe').textContent = classe;
+  document.getElementById('header-nom').textContent = nom;
+  ['prenom-ok','prenom-revoir','prenom-bloque'].forEach(id => {
+    document.getElementById(id).textContent = nom.split(' ')[0];
+  });
+
+  let nbTentatives = 0, dysActif = false;
+  const TOK = () => dysActif ? 1500 : 700;
+  const TKO = () => dysActif ? 2000 : 1200;
+
+  function basculerDYS() {
+    dysActif = !dysActif;
+    document.body.style.transition = 'opacity 0.2s';
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+      document.body.classList.toggle('dys', dysActif);
+      ['header-dys','accueil-dys'].forEach(id => { const el=document.getElementById(id); if(el) el.classList.toggle('on', dysActif); });
+      document.body.style.opacity = '1';
+    }, 200);
+  }
+
+  function sauvegarder(statut, score, tentNum, extra) {
+    if (!email) return;
+    fetch(APPS_SCRIPT_URL, { method:'POST', body: JSON.stringify(Object.assign({
+      type:'remediation', eleve_id:email, eleve_nom:nom, classe,
+      etablissement:lycee, fiche_id:FICHE_ID, theme:THEME, niveau:NIVEAU,
+      statut, score_quiz:score, tentative_num:tentNum,
+      prof, prof_email:profEmail, alerte_traitee:'non'
+    }, extra || {})) }).catch(()=>{});
+  }
+
+  async function verifierProgression() {
+    if (!email) { allerVers('ecran-chargement','ecran-accueil'); return; }
+    const timeout = setTimeout(() => allerVers('ecran-chargement','ecran-accueil'), 8000);
+    try {
+      const res = await fetch(APPS_SCRIPT_URL + '?type=remediation&etablissement=' + encodeURIComponent(lycee));
+      const data = await res.json();
+      clearTimeout(timeout);
+      if (data.status !== 'ok') { allerVers('ecran-chargement','ecran-accueil'); return; }
+      const lignes = (data.data||[]).filter(r => r.eleve_id===email && r.fiche_id===FICHE_ID);
+      nbTentatives = lignes.filter(r => ['quiz_final_echec','quiz_final_valide','echec_3_tentatives'].includes(r.statut)).length;
+      if (lignes.find(r => r.statut==='echec_3_tentatives')) { allerVers('ecran-chargement','ecran-bloque'); return; }
+      if (lignes.find(r => r.statut==='quiz_final_valide'))  { allerVers('ecran-chargement','ecran-final-ok'); return; }
+      allerVers('ecran-chargement','ecran-accueil');
+    } catch(e) { clearTimeout(timeout); allerVers('ecran-chargement','ecran-accueil'); }
+  }
+  verifierProgression();
+
+  // ── ANIMATION COURS ─────────────────────────────────────────
+  let etapeActuelle = 0;
+
+  function showEl(id) { const el=document.getElementById(id); if(!el)return; el.style.opacity='1'; el.style.animation='popIn 0.5s cubic-bezier(.22,1,.36,1) both'; }
+  function showTag(id) { const el=document.getElementById(id); if(!el)return; el.style.display='inline-block'; el.style.animation='popIn 0.4s cubic-bezier(.22,1,.36,1) both'; }
+  function hl(id,cl) { const el=document.getElementById(id); if(el) el.classList.add(cl); }
+  function unhl(id,cl) { const el=document.getElementById(id); if(el) el.classList.remove(cl); }
+
+  // Exemple : 2/3 × 3/5 = 6/15
+  const ETAPES = [
+    { texte:"On repère les deux fractions : <span class='acc'>2/3</span> et <span class='acc'>3/5</span>.", action:()=>{ hl('a-fn','hl-or'); hl('a-fd','hl-or'); hl('a-ent-n','hl-or'); hl('a-ent-d','hl-or'); } },
+    { texte:"On multiplie les <span class='acc'>numérateurs</span> entre eux : <span class='acc'>2 × 3 = 6</span>.", action:()=>{
+      unhl('a-fd','hl-or'); unhl('a-ent-d','hl-or');
+      document.getElementById('zone-res').style.display = 'flex';
+      showEl('a-rn'); showEl('a-rb'); showTag('tag-n');
+    }},
+    { texte:"On multiplie les <span class='acc'>dénominateurs</span> entre eux : <span class='acc'>3 × 5 = 15</span>.", action:()=>{
+      unhl('a-fn','hl-or'); unhl('a-ent-n','hl-or');
+      showEl('a-rd'); showTag('tag-d');
+    }},
+    { texte:"Résultat : <span class='acc'>2/3 × 3/5 = <span class='vrt'>6/15</span></span> ✓", action:()=>{}, dernier:true }
+  ];
+
+  function reinitAnim() {
+    etapeActuelle = 0;
+    ['a-fn','a-fd','a-ent-n','a-ent-d'].forEach(id => { const el=document.getElementById(id); if(el) el.classList.remove('hl-or','hl-vert'); });
+    document.getElementById('zone-res').style.display = 'none';
+    ['a-rn','a-rb','a-rd'].forEach(id => { const el=document.getElementById(id); if(el){el.style.opacity='0';el.style.animation='';} });
+    ['tag-n','tag-d'].forEach(id => { const el=document.getElementById(id); if(el){el.style.display='none';el.style.animation='';} });
+    document.getElementById('etape-texte').innerHTML = "Appuie sur <strong style='color:#d4820a;'>Étape suivante</strong> pour commencer l'exemple.";
+    const btn = document.getElementById('btn-etape');
+    btn.textContent = 'Étape suivante →'; btn.classList.remove('recommencer'); btn.onclick = etapeSuivante;
+  }
+
+  function etapeSuivante() {
+    if (etapeActuelle >= ETAPES.length) return;
+    const e = ETAPES[etapeActuelle];
+    e.action();
+    const bulle = document.getElementById('etape-bulle');
+    bulle.style.animation = 'none'; bulle.offsetHeight;
+    bulle.style.animation = 'slideUp 0.4s cubic-bezier(.22,1,.36,1) both';
+    document.getElementById('etape-texte').innerHTML = e.texte;
+    etapeActuelle++;
+    if (e.dernier) {
+      const btn = document.getElementById('btn-etape');
+      btn.textContent = '↺ Recommencer'; btn.classList.add('recommencer'); btn.onclick = () => reinitAnim();
+    }
+  }
+
+  // ── DONNÉES ─────────────────────────────────────────────────
+  // rn = n1*n2, rd = d1*d2 ; si simplifiable : sn/sd = fraction irréductible
+  const EXERCICES = [
+    { n1:1, d1:2, n2:1, d2:3, rn:1,  rd:6  },
+    { n1:2, d1:3, n2:3, d2:5, rn:6,  rd:15 },
+    { n1:3, d1:4, n2:2, d2:5, rn:6,  rd:20 },
+    { n1:1, d1:3, n2:2, d2:7, rn:2,  rd:21 },
+    { n1:1, d1:2, n2:2, d2:4, rn:2,  rd:8,  simplifiable:true, sn:1, sd:4 },
+    { n1:2, d1:3, n2:3, d2:4, rn:6,  rd:12, simplifiable:true, sn:1, sd:2 },
+  ];
+  const ORDRE_FINAL = [2,4,0,5,1,3];
+
+  // ── EXERCICES ────────────────────────────────────────────────
+  let exIdx = 0, exEtape = 0, exBloque = false;
+
+  function setBulle(html) {
+    const b = document.getElementById('ex-bulle');
+    b.style.animation = 'none'; b.offsetHeight;
+    b.style.animation = 'slideUp 0.4s cubic-bezier(.22,1,.36,1) both';
+    document.getElementById('ex-bulle-txt').innerHTML = html;
+  }
+  function setFb(txt, ok) {
+    const fb = document.getElementById('ex-fb');
+    fb.textContent = txt;
+    fb.style.background = ok ? 'rgba(16,140,90,0.15)' : 'rgba(200,50,50,0.12)';
+    fb.style.color = ok ? '#0a6e3f' : '#a83232';
+    fb.style.opacity = '1';
+  }
+  function hideFb() { document.getElementById('ex-fb').style.opacity = '0'; }
+  function focusEl(id) { setTimeout(()=>{ const el=document.getElementById(id); if(el) el.focus(); }, 200); }
+  function lockOk(id) {
+    const el=document.getElementById(id);
+    if(!el) return;
+    el.disabled=true; el.style.borderColor='rgba(16,140,90,0.5)'; el.style.background='rgba(16,140,90,0.07)'; el.style.color='#0a6e3f';
+  }
+
+  function chargerEx(ai) {
+    exIdx = ai; exEtape = 0; exBloque = false;
+    const a = EXERCICES[ai];
+    document.getElementById('cours-badge').textContent = 'Exercice ' + (ai+1) + ' / ' + EXERCICES.length;
+    document.getElementById('cours-fill').style.width = (ai / EXERCICES.length * 100) + '%';
+    document.getElementById('ex-fn1').textContent = a.n1;
+    document.getElementById('ex-fd1').textContent = a.d1;
+    document.getElementById('ex-fn2').textContent = a.n2;
+    document.getElementById('ex-fd2').textContent = a.d2;
+    const rn = document.getElementById('ex-rn');
+    const rd = document.getElementById('ex-rd');
+    rn.value=''; rn.disabled=false; rn.style.borderColor='rgba(16,140,90,0.35)'; rn.style.background='rgba(255,255,255,0.85)'; rn.style.color='#0a6e3f';
+    rd.value=''; rd.disabled=true;  rd.style.borderColor='rgba(16,140,90,0.35)'; rd.style.background='rgba(255,255,255,0.85)'; rd.style.color='#0a6e3f';
+    // Nettoyer la zone simplification si elle existe
+    const oldZone = document.getElementById('simplif-zone');
+    if (oldZone) oldZone.remove();
+    hideFb();
+    setBulle('Écris le <strong style="color:#d4820a;">numérateur</strong> du résultat.');
+    document.getElementById('ex-btn').textContent = 'Valider →';
+    document.getElementById('ex-btn').onclick = exValider;
+    focusEl('ex-rn');
+    rn.onkeydown = ev => { if(ev.key==='Enter') exValider(); };
+    rd.onkeydown = ev => { if(ev.key==='Enter') exValider(); };
+    window.scrollTo(0,0);
+  }
+
+  function exValider() {
+    if (exBloque) return;
+    const a = EXERCICES[exIdx];
+
+    if (exEtape === 0) {
+      // Valider numérateur
+      const val = parseInt(document.getElementById('ex-rn').value);
+      if (isNaN(val)) return;
+      if (val !== a.rn) {
+        setFb('✗ Non — ' + a.n1 + ' × ' + a.n2 + ' = ' + a.rn + '. Réessaie.', false);
+        document.getElementById('ex-rn').value = ''; focusEl('ex-rn'); return;
+      }
+      lockOk('ex-rn'); setFb('✓ Exact ! Maintenant le dénominateur.', true); exBloque = true;
+      setTimeout(() => {
+        exBloque = false; hideFb();
+        setBulle('Maintenant multiplie les <strong style="color:#d4820a;">dénominateurs</strong> : ' + a.d1 + ' × ' + a.d2 + '. Écris le résultat.');
+        document.getElementById('ex-rd').disabled = false;
+        document.getElementById('ex-rd').style.borderColor = 'rgba(16,140,90,0.35)';
+        focusEl('ex-rd');
+        exEtape = 1;
+      }, TOK());
+
+    } else if (exEtape === 1) {
+      // Valider dénominateur
+      const val = parseInt(document.getElementById('ex-rd').value);
+      if (isNaN(val)) return;
+      if (val !== a.rd) {
+        setFb('✗ Non — ' + a.d1 + ' × ' + a.d2 + ' = ' + a.rd + '. Réessaie.', false);
+        document.getElementById('ex-rd').value = ''; focusEl('ex-rd'); return;
+      }
+      lockOk('ex-rd'); setFb('✓ Bravo ! ' + a.rn + '/' + a.rd + ' 🎉', true); exBloque = true;
+      setTimeout(() => {
+        exBloque = false; hideFb();
+        if (a.simplifiable) {
+          // Afficher zone simplification
+          setBulle('✓ <strong style="color:#0a6e3f;">' + a.n1 + '/' + a.d1 + ' × ' + a.n2 + '/' + a.d2 + ' = ' + a.rn + '/' + a.rd + '</strong><br><br>Ce résultat peut se <strong style="color:var(--or);">simplifier</strong> ! Écris la fraction irréductible.');
+          afficherZoneSimplif(a);
+        } else {
+          setBulle('🎉 <strong style="color:#0a6e3f;">' + a.n1 + '/' + a.d1 + ' × ' + a.n2 + '/' + a.d2 + ' = ' + a.rn + '/' + a.rd + '</strong>');
+          const btn = document.getElementById('ex-btn');
+          btn.textContent = 'Exercice suivant →';
+          btn.onclick = suiteEx;
+        }
+      }, TKO());
+    }
+  }
+
+  function afficherZoneSimplif(a) {
+    // Ajouter les champs de simplification sous le bloc exercice
+    let zone = document.getElementById('simplif-zone');
+    if (!zone) {
+      zone = document.createElement('div');
+      zone.id = 'simplif-zone';
+      zone.style.cssText = 'width:100%;display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:8px;animation:fadeIn 0.4s both;';
+      document.querySelector('#ecran-cours .cours-carte > div:last-child').appendChild(zone);
+    }
+    zone.innerHTML =
+      '<div style="display:flex;align-items:center;gap:14px;justify-content:center;flex-wrap:wrap;">' +
+        '<div style="display:flex;flex-direction:column;align-items:center;gap:4px;">' +
+          '<div style="font-size:40px;font-weight:700;color:#b06a20;line-height:1;">' + a.rn + '</div>' +
+          '<div style="height:3px;background:#b06a20;border-radius:2px;width:54px;"></div>' +
+          '<div style="font-size:40px;font-weight:700;color:#b06a20;line-height:1;">' + a.rd + '</div>' +
+        '</div>' +
+        '<div style="font-size:28px;font-weight:700;color:#b06a20;">=</div>' +
+        '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;">' +
+          '<input type="number" id="simplif-n" class="ex-input" />' +
+          '<div style="height:3px;background:#0a6e3f;border-radius:2px;width:76px;"></div>' +
+          '<input type="number" id="simplif-d" class="ex-input" disabled />' +
+        '</div>' +
+      '</div>';
+    const btn = document.getElementById('ex-btn');
+    btn.textContent = 'Valider →';
+    btn.onclick = () => valSimplif(a);
+    focusEl('simplif-n');
+    document.getElementById('simplif-n').onkeydown = ev => { if(ev.key==='Enter') valSimplif(a); };
+    document.getElementById('simplif-d').onkeydown = ev => { if(ev.key==='Enter') valSimplif(a); };
+    exEtape = 2;
+  }
+
+  function valSimplif(a) {
+    if (exBloque) return;
+    if (exEtape === 2) {
+      const val = parseInt(document.getElementById('simplif-n').value);
+      if (isNaN(val)) return;
+      if (val !== a.sn) {
+        setFb('✗ Non — le numérateur simplifié est ' + a.sn + '.', false);
+        document.getElementById('simplif-n').value = ''; focusEl('simplif-n'); return;
+      }
+      lockOk('simplif-n');
+      const sd = document.getElementById('simplif-d');
+      sd.disabled = false; sd.style.borderColor = 'rgba(16,140,90,0.35)';
+      setFb('✓ Exact ! Maintenant le dénominateur.', true); exBloque = true;
+      setTimeout(() => { exBloque = false; hideFb(); focusEl('simplif-d'); exEtape = 3; }, TOK());
+    } else if (exEtape === 3) {
+      const val = parseInt(document.getElementById('simplif-d').value);
+      if (isNaN(val)) return;
+      if (val !== a.sd) {
+        setFb('✗ Non — le dénominateur simplifié est ' + a.sd + '.', false);
+        document.getElementById('simplif-d').value = ''; focusEl('simplif-d'); return;
+      }
+      lockOk('simplif-d'); setFb('✓ Parfait ! ' + a.rn + '/' + a.rd + ' = ' + a.sn + '/' + a.sd + ' ✓', true); exBloque = true;
+      setTimeout(() => {
+        exBloque = false; hideFb();
+        setBulle('🎉 <strong style="color:#0a6e3f;">' + a.n1 + '/' + a.d1 + ' × ' + a.n2 + '/' + a.d2 + ' = ' + a.rn + '/' + a.rd + ' = ' + a.sn + '/' + a.sd + '</strong>');
+        const btn = document.getElementById('ex-btn');
+        btn.textContent = 'Exercice suivant →';
+        btn.onclick = suiteEx;
+      }, TKO());
+    }
+  }
+
+  function suiteEx() {
+    exIdx++;
+    if (exIdx >= EXERCICES.length) { allerVers('ecran-cours','ecran-transition-final'); return; }
+    chargerEx(exIdx);
+  }
+
+  // ── QUIZ FINAL ───────────────────────────────────────────────
+  let qFIdx = 0, bloqueF = false, bonnesF = 0;
+
+  function versQuizFinal() {
+    allerVers('ecran-transition-final','ecran-quiz-final');
+    qFIdx = 0; bonnesF = 0; bloqueF = false;
+    setTimeout(() => chargerQF(0), 500);
+  }
+
+  function chargerQF(i) {
+    bloqueF = false;
+    const a = EXERCICES[ORDRE_FINAL[i]];
+    document.getElementById('prog-label-f').textContent = 'Exercice ' + (i+1) + ' / ' + EXERCICES.length;
+    document.getElementById('prog-fill-f').style.width = (i / EXERCICES.length * 100) + '%';
+    document.getElementById('feedback-f').className = 'feedback';
+    document.getElementById('feedback-f').innerHTML = '';
+    const rn = document.getElementById('quiz-rn');
+    const rd = document.getElementById('quiz-rd');
+    rn.value=''; rn.disabled=false; rn.style.borderColor='rgba(10,110,63,0.3)'; rn.style.background='rgba(255,255,255,0.8)';
+    rd.value=''; rd.disabled=true;  rd.style.borderColor='rgba(10,110,63,0.3)'; rd.style.background='rgba(255,255,255,0.8)';
+    document.getElementById('add-quiz-f').innerHTML =
+      '<div class="fq"><div class="fq-n">' + a.n1 + '</div><div class="fq-b"></div><div class="fq-d">' + a.d1 + '</div></div>' +
+      '<div class="op-q">×</div>' +
+      '<div class="fq"><div class="fq-n">' + a.n2 + '</div><div class="fq-b"></div><div class="fq-d">' + a.d2 + '</div></div>';
+    setTimeout(() => rn.focus(), 200);
+    rn.onkeydown = ev => { if(ev.key==='Enter') repondreFinal(); };
+    rd.onkeydown = ev => { if(ev.key==='Enter') repondreFinal(); };
+  }
+
+  function repondreFinal() {
+    if (bloqueF) return;
+    const a = EXERCICES[ORDRE_FINAL[qFIdx]];
+    const rnEl = document.getElementById('quiz-rn');
+    const rdEl = document.getElementById('quiz-rd');
+    const fb = document.getElementById('feedback-f');
+
+    if (!rnEl.disabled && rdEl.disabled) {
+      const vn = parseInt(rnEl.value);
+      if (isNaN(vn)) return;
+      if (vn !== a.rn) {
+        fb.textContent = '✗ Non, le numérateur est ' + a.rn + '.';
+        fb.className = 'feedback nok'; rnEl.value=''; rnEl.focus(); return;
+      }
+      rnEl.disabled=true; rnEl.style.borderColor='rgba(10,110,63,0.5)'; rnEl.style.background='rgba(16,140,90,0.07)';
+      rdEl.disabled=false; rdEl.style.borderColor='rgba(10,110,63,0.3)';
+      fb.textContent = '✓ Exact ! Maintenant le dénominateur.'; fb.className = 'feedback ok';
+      setTimeout(() => { rdEl.focus(); fb.className='feedback'; fb.innerHTML=''; }, TOK());
+      return;
+    }
+
+    const vd = parseInt(rdEl.value);
+    if (isNaN(vd)) return;
+    bloqueF = true;
+    if (vd !== a.rd) {
+      fb.textContent = '✗ Non, le dénominateur est ' + a.rd + '.';
+      fb.className = 'feedback nok'; bloqueF=false; rdEl.value=''; rdEl.focus(); return;
+    }
+    rdEl.disabled=true; rdEl.style.borderColor='rgba(10,110,63,0.5)'; rdEl.style.background='rgba(16,140,90,0.07)';
+    bonnesF++;
+    fb.textContent = '✓ Bravo !'; fb.className = 'feedback ok';
+    setTimeout(() => {
+      qFIdx++;
+      if (qFIdx >= EXERCICES.length) finalResultat();
+      else {
+        const z = document.getElementById('add-quiz-f');
+        z.style.opacity='0'; z.style.transition='opacity 0.3s';
+        setTimeout(() => { chargerQF(qFIdx); z.style.opacity='1'; bloqueF=false; }, 300);
+      }
+    }, TOK());
+  }
+
+  function finalResultat() {
+    const score = Math.round(bonnesF / EXERCICES.length * 100);
+    nbTentatives++;
+    if (score >= 80) {
+      sauvegarder('quiz_final_valide', score, nbTentatives);
+      document.getElementById('texte-ok').innerHTML = 'Tu as eu <strong style="color:var(--vert-bord);">' + bonnesF + ' / ' + EXERCICES.length + '</strong> bonnes réponses. Tu sais multiplier deux fractions entre elles ! 🎉';
+      allerVers('ecran-quiz-final','ecran-final-ok');
+    } else if (nbTentatives >= MAX_TENTATIVES) {
+      sauvegarder('echec_3_tentatives', score, nbTentatives, { prof_email:profEmail });
+      allerVers('ecran-quiz-final','ecran-bloque');
+    } else {
+      sauvegarder('quiz_final_echec', score, nbTentatives);
+      const r = MAX_TENTATIVES - nbTentatives;
+      document.getElementById('texte-revoir').innerHTML = 'Tu as eu <strong>' + bonnesF + ' / ' + EXERCICES.length + '</strong> bonnes réponses (' + score + '%).<br>Il te reste <strong>' + r + ' tentative' + (r>1?'s':'') + '</strong>.<br>Relis le cours, tu vas y arriver !';
+      allerVers('ecran-quiz-final','ecran-final-revoir');
+    }
+  }
+
+  function allerVers(a, b) {
+    const d=document.getElementById(a), ar=document.getElementById(b);
+    d.style.transition='opacity 0.5s ease'; d.style.opacity='0';
+    setTimeout(() => {
+      d.classList.add('cache'); d.style.opacity='1';
+      ar.classList.remove('cache'); ar.style.opacity='0';
+      ar.style.transition='opacity 0.5s ease';
+      setTimeout(() => { ar.style.opacity='1'; }, 20);
+    }, 500);
+  }
+</script>
+</body>
+</html>
