@@ -5,108 +5,772 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fiche remédiation · 8 — Multiplier deux fractions entre elles</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=OpenDyslexic:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Sora:wght@400;500;600;700;800&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=OpenDyslexic:wght@400;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
     :root {
-      --vert-fort:#108c5a; --vert-bord:#0a6e3f; --vert-pale:#edf7f2;
-      --vert-clair:#c8edd9; --vert-moyen:#a8dfc4; --vert-doux:#d4f0e2;
-      --texte-fonce:#0d2b1f; --texte-vert:#108c5a;
-      --badge-bg:rgba(10,110,63,0.13); --badge-texte:#0a6e3f;
-      --or:#d4820a; --or-pale:rgba(212,130,10,0.12); --or-bord:#b06a20;
+      /* ── Palette écosystème ── */
+      --navy: #1A2C4F;
+      --navy-deep: #142340;
+      --gold: #C28A42;
+      --gold-l: #D4A464;
+      --gold-deep: #B47A35;
+      --gold-dark: #8F5F26;
+      --gold-pale: rgba(212,164,100,.10);
+      --gold-soft: rgba(212,164,100,.18);
+      --gold-bg: rgba(212,164,100,.06);
+      --beige: #F4F2EE;
+      --beige-l: #FAF8F4;
+      --cream: #FDF9F0;
+      --cream-l: #FEFCF5;
+      --white: #FFFFFF;
+      --green: #15A362;
+      --green-dark: #0E7348;
+      --green-l: #E8F5EE;
+      --red: #D42626;
+      --red-dark: #A11717;
+      --red-l: #FEF2F2;
+      --text: #1A1311;
+      --text2: #4A4036;
+      --text3: #8A7F73;
+      --border: rgba(20,19,16,.10);
+
+      --r: 12px;
+      --rl: 16px;
+      --rxl: 22px;
+
+      --or: var(--gold);
+      --or-pale: var(--gold-pale);
+      --or-bord: var(--gold-deep);
     }
-    body.dys * { font-family:'OpenDyslexic',Arial,sans-serif !important; line-height:1.9 !important; }
+
+    /* ══ MODE DYS ══════════════════════════════════════════════ */
+    body.dys { font-family:'OpenDyslexic',Arial,sans-serif !important; }
+    body.dys .titre, body.dys .texte-intro, body.dys .q-txt,
+    body.dys .btn, body.dys .feedback, body.dys .regle-texte,
+    body.dys .etape-texte, body.dys .ex-bulle-txt {
+      font-family:'OpenDyslexic',Arial,sans-serif !important;
+      line-height:1.9 !important;
+    }
+
+    /* ══ ANIMATIONS ════════════════════════════════════════════ */
     @keyframes gradientWave { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
     @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
     @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-    @keyframes btnGlow { 0%{box-shadow:0 0 0 0 rgba(10,110,63,0)} 50%{box-shadow:0 0 0 10px rgba(10,110,63,0.15),0 0 0 22px rgba(10,110,63,0.07)} 100%{box-shadow:0 0 0 0 rgba(10,110,63,0)} }
-    @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(212,130,10,0.5)} 50%{box-shadow:0 0 0 10px rgba(212,130,10,0)} }
+    @keyframes btnGlow {
+      0%   { box-shadow: 0 0 0 0 rgba(194,138,66,0); }
+      50%  { box-shadow: 0 6px 20px rgba(194,138,66,.30), 0 0 0 0 rgba(194,138,66,.10); }
+      100% { box-shadow: 0 0 0 0 rgba(194,138,66,0); }
+    }
+    @keyframes slideIn { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(194,138,66,0.45); }
+      50%     { box-shadow: 0 0 0 10px rgba(194,138,66,0); }
+    }
     @keyframes popIn { 0%{opacity:0;transform:scale(0.5)} 70%{transform:scale(1.1)} 100%{opacity:1;transform:scale(1)} }
     @keyframes slideUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ══ BASE ══════════════════════════════════════════════════ */
     html { height:100%; }
-    body { min-height:100vh; display:flex; align-items:flex-start; justify-content:center; font-family:Arial,sans-serif; overflow-y:auto; }
-    .header { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:16px 28px;background:rgba(255,255,255,0.55);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.7); }
-    .header-ligne { font-size:18px;font-weight:500;color:var(--texte-fonce);display:flex;align-items:center;gap:10px; }
-    .header-sep { color:var(--vert-fort);font-weight:700; }
-    .header-nom { font-weight:700;color:var(--vert-bord); }
-    /* Badge "Mode DYS actif" qui remplace l'ancien bouton toggle */
-    .header-dys-badge { display:none; position:absolute;right:20px;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(10,110,63,0.12);border:1px solid rgba(10,110,63,0.25);font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:var(--vert-bord);letter-spacing:0.04em; }
+    body {
+      min-height:100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      font-family:'Inter Tight', system-ui, -apple-system, sans-serif;
+      color:var(--text);
+      background:var(--beige);
+      overflow-y:auto;
+    }
+
+    /* ══ HEADER ════════════════════════════════════════════════ */
+    .header {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:center;
+      padding:16px 28px;
+      background:rgba(244,242,238,.75);
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--border);
+      animation:fadeUp 0.6s cubic-bezier(.22,1,.36,1) both;
+    }
+    .header-ligne {
+      font-family:'Inter Tight', sans-serif;
+      font-size:13.5px; font-weight:500;
+      color:var(--text2);
+      display:flex; align-items:center; gap:10px;
+      letter-spacing:-.05px;
+    }
+    .header-sep { color:var(--gold-deep); font-weight:700; }
+    .header-nom {
+      font-family:'Sora', sans-serif;
+      font-weight:700; color:var(--navy);
+      letter-spacing:-.2px;
+    }
+
+    .header-dys-badge {
+      display:none;
+      position:absolute; right:20px;
+      align-items:center; gap:6px;
+      padding:5px 12px; border-radius:999px;
+      background:var(--gold-pale);
+      border:1px solid var(--gold-soft);
+      font-family:'Inter Tight', sans-serif;
+      font-size:10.5px; font-weight:700;
+      color:var(--gold-deep);
+      letter-spacing:0.04em;
+    }
     .header-dys-badge.visible { display:inline-flex; }
-    .header-dys-badge::before { content:'';width:6px;height:6px;border-radius:50%;background:var(--vert-fort); }
-    .ecran { display:flex;align-items:center;justify-content:center;width:100%;min-height:100vh;padding-top:80px;padding-bottom:40px; }
+    .header-dys-badge::before {
+      content:'';
+      width:6px; height:6px;
+      border-radius:50%;
+      background:var(--gold);
+    }
+
+    .header-audio-toggle {
+      position:absolute; left:20px;
+      width:36px; height:36px;
+      border-radius:50%;
+      border:1.5px solid var(--border);
+      background:rgba(255,255,255,.7);
+      font-size:16px;
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:all .2s;
+      padding:0;
+      line-height:1;
+    }
+    .header-audio-toggle:hover {
+      background:var(--gold-pale);
+      border-color:var(--gold);
+      transform:scale(1.05);
+    }
+    .header-audio-toggle.active {
+      background:linear-gradient(180deg, var(--gold-l), var(--gold-deep));
+      border-color:var(--gold-deep);
+      color:#fff;
+      box-shadow:0 4px 12px rgba(194,138,66,.30);
+    }
+    .header-audio-toggle.active.speaking {
+      animation:pulse 1.2s ease-in-out infinite;
+    }
+
+    .audio-toggle-card {
+      margin-top:8px;
+      padding:10px 22px 10px 16px;
+      border-radius:999px;
+      border:1.5px solid var(--gold-soft);
+      background:var(--gold-pale);
+      font-family:'Inter Tight', sans-serif;
+      font-size:13px; font-weight:600;
+      color:var(--gold-deep);
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      letter-spacing:-.05px;
+      transition:all .2s;
+    }
+    .audio-toggle-card .ico {
+      font-size:16px;
+      width:24px; height:24px;
+      display:inline-flex;
+      align-items:center; justify-content:center;
+      border-radius:50%;
+      background:rgba(255,255,255,.8);
+    }
+    .audio-toggle-card:hover {
+      background:var(--gold-soft);
+      border-color:var(--gold);
+      transform:translateY(-1px);
+      box-shadow:0 4px 12px rgba(194,138,66,.20);
+    }
+    .audio-toggle-card.active {
+      background:linear-gradient(180deg, var(--gold-l), var(--gold-deep));
+      border-color:var(--gold-deep);
+      color:#fff;
+      box-shadow:0 4px 14px rgba(194,138,66,.30);
+    }
+    .audio-toggle-card.active .ico {
+      background:rgba(255,255,255,.25);
+    }
+    .audio-toggle-card.active.speaking {
+      animation:pulse 1.2s ease-in-out infinite;
+    }
+    body.dys .audio-toggle-card { font-family:'OpenDyslexic', Arial, sans-serif !important; }
+
+    /* ══ ÉCRANS ════════════════════════════════════════════════ */
+    .ecran {
+      display:flex; align-items:center; justify-content:center;
+      width:100%; min-height:100vh;
+      padding-top:80px; padding-bottom:40px;
+    }
     .ecran.cache { display:none; }
-    .fond-vert  { background:linear-gradient(135deg,var(--vert-clair),var(--vert-pale),var(--vert-moyen),var(--vert-pale),var(--vert-doux));background-size:400% 400%;animation:gradientWave 8s ease infinite; }
-    .fond-chaud { background:linear-gradient(135deg,#fdf6ec,#fef9f0,#fcebd8,#fef5e7,#fdf0e0);background-size:400% 400%;animation:gradientWave 8s ease infinite; }
-    .carte { background:rgba(255,255,255,0.62);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.85);border-radius:28px;padding:56px 64px 52px;display:flex;flex-direction:column;align-items:center;gap:14px;max-width:480px;width:90%; }
+
+    .fond-vert {
+      background: linear-gradient(135deg, #F4F2EE, #FAF8F4, #F0EDE6, #F7F4ED, #F4F2EE);
+      background-size: 400% 400%;
+      animation: gradientWave 28s ease infinite;
+    }
+    .fond-chaud {
+      background: linear-gradient(135deg, #FDF9F0, #FEFCF5, #FAF1E0, #FDF6EC, #FBF4E4);
+      background-size: 400% 400%;
+      animation: gradientWave 28s ease infinite;
+    }
+
+    /* ══ CARTES ════════════════════════════════════════════════ */
+    .carte {
+      background:rgba(255,255,255,.62);
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,.85);
+      border-radius:var(--rxl);
+      padding:56px 64px 52px;
+      display:flex; flex-direction:column;
+      align-items:center; gap:14px;
+      max-width:500px; width:90%;
+      box-shadow:0 8px 32px rgba(20,19,16,.05);
+    }
     .carte.anime { animation:fadeUp 0.8s cubic-bezier(.22,1,.36,1) both; }
-    .cours-carte { background:rgba(255,255,255,0.70);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.9);border-radius:28px;padding:40px 52px 48px;display:flex;flex-direction:column;align-items:center;gap:0;max-width:680px;width:92%; }
-    .quiz-carte { background:rgba(255,255,255,0.62);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.85);border-radius:28px;padding:40px 48px 44px;display:flex;flex-direction:column;align-items:center;gap:20px;max-width:580px;width:92%; }
-    .badge { font-size:11px;font-weight:700;color:var(--badge-texte);background:var(--badge-bg);padding:5px 18px;border-radius:999px;letter-spacing:0.07em;text-transform:uppercase; }
-    .titre { font-size:clamp(22px,4vw,30px);font-weight:500;color:var(--texte-fonce);text-align:center;line-height:1.25; }
-    .titre .accent { color:var(--texte-vert); }
-    .texte-intro { font-size:18px;font-weight:400;color:var(--texte-fonce);text-align:center;line-height:1.6;max-width:340px; }
-    .texte-intro strong { color:var(--vert-bord);font-weight:700; }
-    .btn { margin-top:22px;padding:15px 54px;border-radius:999px;border:2.5px solid var(--vert-bord);background:transparent;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.04em;color:var(--vert-bord);animation:btnGlow 2.2s ease-in-out infinite;transition:background 0.2s,color 0.2s,transform 0.15s;font-family:inherit; }
-    .btn:hover { background:var(--vert-bord);color:#fff;transform:scale(1.05); }
-    .btn:active { transform:scale(0.97); }
-    .cours-prog-header { display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:24px; }
-    .cours-prog-badge { font-size:13px;font-weight:700;background:var(--or-pale);color:var(--or-bord);padding:5px 18px;border-radius:999px; }
-    .cours-prog-num { font-size:11px;font-weight:600;color:#c8913a;letter-spacing:0.05em;text-transform:uppercase; }
-    .cours-prog-track { width:100%;height:6px;background:rgba(180,100,20,0.12);border-radius:999px;overflow:hidden;margin-bottom:24px; }
-    .cours-prog-fill { height:100%;background:var(--or);border-radius:999px;transition:width 0.6s cubic-bezier(.22,1,.36,1);width:0%; }
-    .regle-bloc { width:100%;background:var(--or-pale);border-left:4px solid var(--or);border-radius:0 12px 12px 0;padding:16px 20px;margin-bottom:24px; }
-    .regle-label { font-size:10px;font-weight:700;color:var(--or-bord);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px; }
-    .regle-texte { font-size:15px;font-weight:500;color:#3d2000;line-height:1.7; }
-    .anim-section { width:100%;background:rgba(212,130,10,0.05);border:1px solid rgba(212,130,10,0.2);border-radius:16px;padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:20px; }
-    .anim-section-label { font-size:10px;font-weight:700;color:var(--or-bord);letter-spacing:0.08em;text-transform:uppercase;align-self:flex-start; }
-    .frac-chiffre { font-size:46px;font-weight:700;color:#3d2000;line-height:1;padding:5px 10px;border-radius:10px;transition:all 0.4s cubic-bezier(.22,1,.36,1); }
-    .frac-barre { height:3.5px;background:#3d2000;border-radius:2px;transition:background 0.4s; }
-    .hl-or   { color:var(--or) !important;background:rgba(212,130,10,0.15);animation:pulse 1.2s ease infinite; }
-    .hl-vert { color:#0a6e3f !important;background:rgba(16,140,90,0.12); }
-    .op-tag-vert { display:none;font-size:11px;font-weight:700;color:#0a6e3f;background:rgba(16,140,90,0.1);border:1px solid rgba(16,140,90,0.25);border-radius:6px;padding:2px 8px;white-space:nowrap;animation:popIn 0.4s cubic-bezier(.22,1,.36,1) both; }
-    .etape-bulle { width:100%;background:rgba(255,255,255,0.85);border:1.5px solid rgba(212,130,10,0.25);border-radius:14px;padding:14px 18px;text-align:center; }
-    .etape-texte { font-size:15px;font-weight:600;color:#3d2000;line-height:1.55; }
-    .etape-texte .acc { color:var(--or);font-weight:700; }
-    .etape-texte .vrt { color:#0a6e3f;font-weight:700; }
-    .btn-etape { padding:11px 32px;border-radius:999px;border:2px solid var(--or);background:transparent;font-size:14px;font-weight:700;color:var(--or);cursor:pointer;transition:all 0.2s;font-family:inherit; }
-    .btn-etape:hover { background:var(--or);color:#fff;transform:scale(1.04); }
-    .btn-etape.recommencer { border-color:#0a6e3f;color:#0a6e3f; }
-    .btn-etape.recommencer:hover { background:#0a6e3f;color:#fff; }
-    .btn-compris-wrap { width:100%;display:flex;justify-content:center;margin-top:24px; }
-    .btn-compris { padding:13px 48px;border-radius:999px;border:2.5px solid var(--or);background:transparent;font-size:15px;font-weight:700;cursor:pointer;color:var(--or);transition:background 0.2s,color 0.2s,transform 0.15s;font-family:inherit; }
-    .btn-compris:hover { background:var(--or);color:#fff;transform:scale(1.04); }
-    .ex-input { width:76px;height:52px;border:2px solid rgba(16,140,90,0.35);border-radius:10px;background:rgba(255,255,255,0.85);font-size:24px;font-weight:700;color:#0a6e3f;text-align:center;outline:none;font-family:inherit;transition:border-color 0.2s,background 0.2s; }
-    .ex-input:focus { border-color:var(--or); }
-    .ex-bulle-box { width:100%;background:rgba(255,255,255,0.85);border:1.5px solid rgba(212,130,10,0.25);border-radius:14px;padding:14px 18px;text-align:center; }
-    .ex-bulle-txt { font-size:15px;font-weight:600;color:#3d2000;line-height:1.6; }
-    .ex-fb { font-size:14px;font-weight:700;padding:8px 18px;border-radius:10px;opacity:0;transition:opacity 0.3s;text-align:center;width:100%; }
-    .btn-ex { padding:11px 32px;border-radius:999px;border:2px solid var(--or);background:transparent;font-size:14px;font-weight:700;color:var(--or);cursor:pointer;font-family:inherit;transition:all 0.2s; }
-    .btn-ex:hover { background:var(--or);color:#fff; }
+    .cours-carte {
+      background:rgba(255,255,255,.70);
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,.9);
+      border-radius:var(--rxl);
+      padding:40px 52px 48px;
+      display:flex; flex-direction:column;
+      align-items:center; gap:0;
+      max-width:680px; width:92%;
+      box-shadow:0 8px 32px rgba(20,19,16,.06);
+    }
+    .quiz-carte {
+      background:rgba(255,255,255,.62);
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,.85);
+      border-radius:var(--rxl);
+      padding:40px 48px 44px;
+      display:flex; flex-direction:column;
+      align-items:center; gap:20px;
+      max-width:600px; width:92%;
+      box-shadow:0 8px 32px rgba(20,19,16,.06);
+    }
+
+    /* ══ BADGES ════════════════════════════════════════════════ */
+    .badge {
+      font-family:'Inter Tight', sans-serif;
+      font-size:10.5px; font-weight:700;
+      color:var(--gold-deep);
+      background:var(--gold-pale);
+      padding:6px 18px;
+      border-radius:999px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      border:1px solid var(--gold-soft);
+    }
+
+    /* ══ TITRES ════════════════════════════════════════════════ */
+    .titre {
+      font-family:'Sora', sans-serif;
+      font-size:clamp(22px, 4.2vw, 30px);
+      font-weight:700;
+      color:var(--navy);
+      text-align:center;
+      line-height:1.2;
+      letter-spacing:-.6px;
+    }
+    .titre .accent {
+      font-family:'Fraunces', Georgia, serif;
+      font-style:italic; font-weight:500;
+      color:var(--gold-deep);
+      letter-spacing:-.2px;
+    }
+
+    /* ══ TEXTE D'INTRO ═════════════════════════════════════════ */
+    .texte-intro {
+      font-family:'Inter Tight', sans-serif;
+      font-size:14.5px; font-weight:400;
+      color:var(--text2);
+      text-align:center;
+      line-height:1.65;
+      max-width:380px;
+      letter-spacing:-.05px;
+    }
+    .texte-intro strong {
+      color:var(--navy);
+      font-weight:700;
+    }
+    .texte-intro small {
+      display:inline-block;
+      margin-top:8px;
+      font-family:'Fraunces', Georgia, serif;
+      font-style:italic;
+      font-size:12.5px;
+      color:var(--gold-deep);
+    }
+
+    /* ══ BOUTON PRINCIPAL ══════════════════════════════════════ */
+    .btn {
+      margin-top:22px;
+      padding:14px 36px;
+      border-radius:var(--r);
+      border:none;
+      background:linear-gradient(180deg, var(--gold-l), var(--gold-deep));
+      font-family:'Inter Tight', sans-serif;
+      font-size:13.5px; font-weight:700;
+      cursor:pointer;
+      letter-spacing:-.05px;
+      color:#fff;
+      animation:btnGlow 2.2s ease-in-out infinite;
+      transition:transform .15s, box-shadow .2s;
+    }
+    .btn:hover {
+      transform:translateY(-1px);
+      box-shadow:0 8px 24px rgba(194,138,66,.35);
+    }
+    .btn:active { transform:translateY(0); }
+
+    /* ══ HEADER PROGRESSION ════════════════════════════════════ */
+    .cours-prog-header {
+      display:flex; flex-direction:column;
+      align-items:center; gap:8px;
+      margin-bottom:24px;
+    }
+    .cours-prog-badge {
+      font-family:'Inter Tight', sans-serif;
+      font-size:12px; font-weight:700;
+      background:var(--gold-pale);
+      color:var(--gold-deep);
+      padding:5px 16px;
+      border-radius:999px;
+      letter-spacing:.04em;
+      border:1px solid var(--gold-soft);
+    }
+    .cours-prog-num {
+      font-family:'Inter Tight', sans-serif;
+      font-size:11px; font-weight:600;
+      color:var(--text3);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .cours-prog-track {
+      width:100%; height:6px;
+      background:rgba(20,19,16,.06);
+      border-radius:999px;
+      overflow:hidden;
+      margin-bottom:24px;
+    }
+    .cours-prog-fill {
+      height:100%;
+      background:linear-gradient(90deg, var(--gold-l), var(--gold-deep));
+      border-radius:999px;
+      transition:width 0.6s cubic-bezier(.22,1,.36,1);
+      width:0%;
+    }
+
+    /* ══ RÈGLE ═════════════════════════════════════════════════ */
+    .regle-bloc {
+      width:100%;
+      background:var(--gold-bg);
+      border-left:4px solid var(--gold);
+      border-radius:0 12px 12px 0;
+      padding:16px 20px;
+      margin-bottom:24px;
+    }
+    .regle-label {
+      font-family:'Inter Tight', sans-serif;
+      font-size:10px; font-weight:700;
+      color:var(--gold-deep);
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+    .regle-texte {
+      font-family:'Inter Tight', sans-serif;
+      font-size:14.5px; font-weight:500;
+      color:var(--text);
+      line-height:1.7;
+      letter-spacing:-.05px;
+    }
+
+    /* ══ Bouton "Comprendre la règle" ═════════════════════════ */
+    .demarrer-wrap {
+      width:100%;
+      display:flex;
+      justify-content:center;
+      padding:20px 0;
+    }
+    .btn-demarrer {
+      font-family:'Inter Tight', sans-serif;
+      padding:12px 28px;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(180deg, var(--gold-l), var(--gold-deep));
+      font-size:13.5px; font-weight:700;
+      color:#fff;
+      cursor:pointer;
+      letter-spacing:-.05px;
+      transition:transform .15s, box-shadow .2s;
+      box-shadow:0 4px 14px rgba(194,138,66,.25);
+    }
+    .btn-demarrer:hover {
+      transform:translateY(-1px);
+      box-shadow:0 8px 24px rgba(194,138,66,.35);
+    }
+
+    /* ══ Effet typewriter ══════════════════════════════════════ */
+    .para-tw { min-height:0; position:relative; }
+    .para-tw:empty { display:none; }
+    @keyframes blinkCursor {
+      0%, 49% { opacity:1; }
+      50%, 100% { opacity:0; }
+    }
+    .tw-cursor {
+      display:inline-block;
+      width:2px; height:1em;
+      background:var(--gold-deep);
+      vertical-align:text-bottom;
+      margin-left:2px;
+      animation:blinkCursor 0.85s steps(1) infinite;
+      transform:translateY(2px);
+    }
+
+    @keyframes fadeInSuivant {
+      from { opacity:0; transform:translateY(6px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .suivant-wrap {
+      width:100%;
+      display:flex;
+      justify-content:center;
+      margin-top:18px;
+      animation:fadeInSuivant 0.4s cubic-bezier(.22,1,.36,1) both;
+    }
+    .btn-suivant {
+      font-family:'Inter Tight', sans-serif;
+      padding:8px 22px;
+      border-radius:999px;
+      border:1.5px solid var(--gold);
+      background:transparent;
+      font-size:12.5px; font-weight:700;
+      color:var(--gold-deep);
+      cursor:pointer;
+      letter-spacing:.02em;
+      transition:all .2s;
+    }
+    .btn-suivant:hover {
+      background:var(--gold);
+      color:#fff;
+      transform:translateY(-1px);
+      box-shadow:0 4px 12px rgba(194,138,66,.25);
+    }
+
+    /* ══ ANIMATION ÉTAPES ══════════════════════════════════════ */
+    .anim-section {
+      width:100%;
+      background:var(--gold-bg);
+      border:1px solid var(--gold-soft);
+      border-radius:var(--rl);
+      padding:24px 20px;
+      display:flex; flex-direction:column;
+      align-items:center; gap:20px;
+    }
+    .anim-section-label {
+      font-family:'Inter Tight', sans-serif;
+      font-size:10px; font-weight:700;
+      color:var(--gold-deep);
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      align-self:flex-start;
+    }
+    .frac-chiffre {
+      font-family:'Sora', sans-serif;
+      font-size:46px; font-weight:700;
+      color:var(--navy);
+      line-height:1;
+      padding:5px 10px;
+      border-radius:10px;
+      letter-spacing:-.5px;
+      transition:all 0.4s cubic-bezier(.22,1,.36,1);
+    }
+    .frac-barre {
+      height:4px;
+      background:var(--navy);
+      border-radius:2px;
+      transition:background 0.4s;
+    }
+    .hl-or {
+      color:var(--gold-deep) !important;
+      background:rgba(194,138,66,.18);
+      animation:pulse 1.2s ease infinite;
+    }
+    .hl-vert {
+      color:var(--green-dark) !important;
+      background:rgba(21,163,98,.12);
+    }
+    .op-tag-vert {
+      display:none;
+      font-family:'Inter Tight', sans-serif;
+      font-size:11.5px; font-weight:700;
+      color:var(--green-dark);
+      background:rgba(21,163,98,.10);
+      border:1px solid rgba(21,163,98,.25);
+      border-radius:8px;
+      padding:3px 10px;
+      white-space:nowrap;
+      animation:popIn 0.4s cubic-bezier(.22,1,.36,1) both;
+    }
+    .etape-bulle {
+      width:100%;
+      background:rgba(255,255,255,.85);
+      border:1.5px solid var(--gold-soft);
+      border-radius:var(--rl);
+      padding:14px 18px;
+      text-align:center;
+    }
+    .etape-texte {
+      font-family:'Sora', sans-serif;
+      font-size:15px; font-weight:600;
+      color:var(--text);
+      line-height:1.55;
+      letter-spacing:-.15px;
+    }
+    .etape-texte .acc { color:var(--gold-deep); font-weight:700; }
+    .etape-texte .vrt { color:var(--green-dark); font-weight:700; }
+
+    .btn-etape {
+      font-family:'Inter Tight', sans-serif;
+      padding:10px 28px;
+      border-radius:999px;
+      border:1.5px solid var(--gold);
+      background:transparent;
+      font-size:13px; font-weight:700;
+      color:var(--gold-deep);
+      cursor:pointer;
+      letter-spacing:.02em;
+      transition:all 0.2s;
+    }
+    .btn-etape:hover {
+      background:var(--gold);
+      color:#fff;
+      transform:translateY(-1px);
+      box-shadow:0 4px 12px rgba(194,138,66,.25);
+    }
+    .btn-etape.recommencer {
+      border-color:var(--green);
+      color:var(--green-dark);
+    }
+    .btn-etape.recommencer:hover {
+      background:var(--green);
+      color:#fff;
+      box-shadow:0 4px 12px rgba(21,163,98,.25);
+    }
+
+    /* ══ Bouton compris ════════════════════════════════════════ */
+    .btn-compris-wrap {
+      width:100%;
+      display:flex;
+      justify-content:center;
+      margin-top:24px;
+    }
+    .btn-compris {
+      font-family:'Inter Tight', sans-serif;
+      padding:13px 40px;
+      border-radius:var(--r);
+      border:none;
+      background:linear-gradient(180deg, var(--gold-l), var(--gold-deep));
+      font-size:13.5px; font-weight:700;
+      color:#fff;
+      cursor:pointer;
+      letter-spacing:-.05px;
+      transition:transform .15s, box-shadow .2s;
+      box-shadow:0 4px 14px rgba(194,138,66,.25);
+    }
+    .btn-compris:hover {
+      transform:translateY(-1px);
+      box-shadow:0 8px 24px rgba(194,138,66,.35);
+    }
+
+    /* ══ EXERCICES ═════════════════════════════════════════════ */
+    .ex-input {
+      width:80px; height:54px;
+      border:1.5px solid var(--border);
+      border-radius:var(--r);
+      background:rgba(255,255,255,.85);
+      font-family:'Sora', sans-serif;
+      font-size:24px; font-weight:700;
+      color:var(--navy);
+      text-align:center;
+      outline:none;
+      transition:border-color .2s, box-shadow .2s, background .2s;
+    }
+    .ex-input::placeholder { color:var(--text3); font-weight:400; }
+    .ex-input:focus {
+      border-color:var(--gold);
+      box-shadow:0 0 0 3px var(--gold-pale);
+    }
+    .ex-bulle-box {
+      width:100%;
+      background:rgba(255,255,255,.85);
+      border:1.5px solid var(--gold-soft);
+      border-radius:var(--rl);
+      padding:14px 18px;
+      text-align:center;
+    }
+    .ex-bulle-txt {
+      font-family:'Sora', sans-serif;
+      font-size:15px; font-weight:600;
+      color:var(--text);
+      line-height:1.6;
+      letter-spacing:-.15px;
+    }
+    .ex-fb {
+      font-family:'Inter Tight', sans-serif;
+      font-size:13.5px; font-weight:700;
+      padding:8px 16px;
+      border-radius:10px;
+      opacity:0;
+      transition:opacity 0.3s;
+      text-align:center;
+      width:100%;
+      letter-spacing:-.05px;
+    }
+    .btn-ex {
+      font-family:'Inter Tight', sans-serif;
+      padding:11px 28px;
+      border-radius:var(--r);
+      border:none;
+      background:var(--navy);
+      font-size:13px; font-weight:700;
+      color:#fff;
+      cursor:pointer;
+      letter-spacing:-.05px;
+      transition:all .2s;
+    }
+    .btn-ex:hover {
+      background:var(--navy-deep);
+      transform:translateY(-1px);
+      box-shadow:0 6px 16px rgba(26,44,79,.25);
+    }
+
+    /* ══ QUIZ FINAL ════════════════════════════════════════════ */
     .prog-wrap { width:100%; }
-    .prog-label { font-size:12px;font-weight:700;color:var(--vert-bord);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:8px;text-align:center; }
-    .prog-track { width:100%;height:6px;background:rgba(10,110,63,0.12);border-radius:999px;overflow:hidden; }
-    .prog-fill  { height:100%;background:var(--vert-fort);border-radius:999px;transition:width 0.5s cubic-bezier(.22,1,.36,1);width:0%; }
-    .consigne-f { font-size:18px;font-weight:500;color:var(--texte-fonce);text-align:center;line-height:1.6; }
-    .fq { display:inline-flex;flex-direction:column;align-items:center;gap:4px; }
-    .fq-n, .fq-d { font-size:46px;font-weight:700;color:var(--texte-fonce);line-height:1; }
-    .fq-b { width:58px;height:3px;background:var(--texte-fonce);border-radius:2px; }
-    .op-q { font-size:34px;font-weight:700;color:var(--vert-bord); }
-    .quiz-btn-val { padding:13px 28px;border-radius:14px;border:2px solid var(--vert-bord);background:transparent;font-size:15px;font-weight:700;color:var(--vert-bord);cursor:pointer;transition:background 0.18s,color 0.18s,transform 0.15s;font-family:inherit; }
-    .quiz-btn-val:hover { background:var(--vert-bord);color:#fff;transform:scale(1.04); }
-    .feedback { font-size:15px;font-weight:700;padding:10px 24px;border-radius:12px;min-height:40px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;text-align:center;width:100%; }
-    .feedback.ok  { background:rgba(16,140,90,0.15);color:var(--vert-bord);opacity:1; }
-    .feedback.nok { background:rgba(200,50,50,0.12);color:#a83232;opacity:1; }
-    .quiz-input { width:80px;height:54px;border:2px solid rgba(10,110,63,0.3);border-radius:12px;background:rgba(255,255,255,0.8);font-size:26px;font-weight:700;color:var(--texte-fonce);text-align:center;outline:none;font-family:inherit;transition:border-color 0.2s; }
-    .quiz-input:focus { border-color:var(--vert-fort); }
+    .prog-label {
+      font-family:'Inter Tight', sans-serif;
+      font-size:11px; font-weight:700;
+      color:var(--navy);
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+      text-align:center;
+    }
+    .prog-track {
+      width:100%; height:6px;
+      background:rgba(20,19,16,.06);
+      border-radius:999px;
+      overflow:hidden;
+    }
+    .prog-fill {
+      height:100%;
+      background:linear-gradient(90deg, var(--gold-l), var(--gold-deep));
+      border-radius:999px;
+      transition:width 0.5s cubic-bezier(.22,1,.36,1);
+      width:0%;
+    }
+    .consigne-f {
+      font-family:'Sora', sans-serif;
+      font-size:18px; font-weight:600;
+      color:var(--text);
+      text-align:center;
+      line-height:1.55;
+      letter-spacing:-.2px;
+    }
+    .fq {
+      display:inline-flex;
+      flex-direction:column;
+      align-items:center;
+      gap:4px;
+      font-family:'Sora', sans-serif;
+    }
+    .fq-n, .fq-d {
+      font-size:44px; font-weight:700;
+      color:var(--navy);
+      line-height:1;
+      letter-spacing:-.5px;
+    }
+    .fq-b {
+      width:58px; height:3px;
+      background:var(--navy);
+      border-radius:2px;
+    }
+    .op-q {
+      font-family:'Sora', sans-serif;
+      font-size:32px; font-weight:700;
+      color:var(--gold-deep);
+    }
+    .quiz-input {
+      width:80px; height:54px;
+      border:1.5px solid var(--border);
+      border-radius:var(--r);
+      background:rgba(255,255,255,.85);
+      font-family:'Sora', sans-serif;
+      font-size:26px; font-weight:700;
+      color:var(--navy);
+      text-align:center;
+      outline:none;
+      transition:border-color .2s, box-shadow .2s, background .2s;
+    }
+    .quiz-input:focus {
+      border-color:var(--gold);
+      box-shadow:0 0 0 3px var(--gold-pale);
+    }
+    .quiz-btn-val {
+      font-family:'Inter Tight', sans-serif;
+      padding:11px 28px;
+      border-radius:var(--r);
+      border:none;
+      background:var(--navy);
+      font-size:13px; font-weight:700;
+      color:#fff;
+      cursor:pointer;
+      letter-spacing:-.05px;
+      transition:all .2s;
+    }
+    .quiz-btn-val:hover {
+      background:var(--navy-deep);
+      transform:translateY(-1px);
+      box-shadow:0 6px 16px rgba(26,44,79,.25);
+    }
+    .feedback {
+      font-family:'Inter Tight', sans-serif;
+      font-size:14px; font-weight:700;
+      padding:10px 24px;
+      border-radius:12px;
+      min-height:40px;
+      display:flex; align-items:center;
+      justify-content:center;
+      opacity:0;
+      transition:opacity 0.3s;
+      text-align:center;
+      width:100%;
+      letter-spacing:-.05px;
+    }
+    .feedback.ok { background:var(--green-l); color:var(--green-dark); opacity:1; }
+    .feedback.nok { background:var(--red-l); color:var(--red-dark); opacity:1; }
+
+    body.dys .ex-input { font-size:26px !important; height:60px !important; width:90px !important; }
+    body.dys .quiz-input { font-size:28px !important; height:60px !important; width:90px !important; }
   </style>
 </head>
 <body>
+
   <div class="header">
     <div class="header-ligne">
       <span id="header-lycee">—</span><span class="header-sep">·</span>
       <span id="header-classe">—</span><span class="header-sep">·</span>
       <span class="header-nom" id="header-nom">—</span>
     </div>
+    <button class="header-audio-toggle" id="header-audio-toggle" onclick="toggleAudioMode()" title="Activer la lecture audio" aria-label="Activer la lecture audio">🔇</button>
     <div class="header-dys-badge" id="header-dys-badge">Mode DYS</div>
   </div>
 
@@ -123,6 +787,10 @@
     <div class="carte anime">
       <div class="badge">Fiche remédiation · 8</div>
       <div class="titre">Multiplier deux fractions<br><span class="accent">entre elles</span></div>
+      <button class="audio-toggle-card" id="audio-toggle-card" onclick="toggleAudioMode()" aria-label="Activer la lecture audio">
+        <span class="ico">🔇</span>
+        <span class="lbl">Activer la lecture audio</span>
+      </button>
       <button class="btn" onclick="allerVers('ecran-accueil','ecran-retenir')">Commencer</button>
     </div>
   </div>
@@ -137,22 +805,29 @@
       <div class="regle-bloc">
         <div class="regle-label">La règle</div>
         <div class="regle-texte">
-          Pour multiplier deux fractions, on multiplie les <strong style="color:#d4820a;">numérateurs entre eux</strong> et les <strong style="color:#d4820a;">dénominateurs entre eux</strong>.<br><br>
-          On obtient ainsi le numérateur et le dénominateur du résultat en une seule étape.
+          <div class="demarrer-wrap" id="demarrer-wrap">
+            <button class="btn-demarrer" onclick="demarrerLecture()">Comprendre la règle ✨</button>
+          </div>
+          <div class="para-tw" id="para-1"></div>
+          <div class="para-tw" id="para-2" style="margin-top:16px;"></div>
+          <div class="suivant-wrap" id="suivant-wrap" style="display:none;">
+            <button class="btn-suivant" onclick="suivantPara()">Suivant →</button>
+          </div>
         </div>
       </div>
 
-      <div class="anim-section">
+      <div class="anim-section" id="anim-section" style="display:none;opacity:0;transition:opacity 0.6s ease;">
         <div class="anim-section-label">Exemple — suis les étapes</div>
 
         <div style="display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap;">
-          <!-- Fraction originale -->
+          <!-- Fraction 1 -->
           <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
             <div class="frac-chiffre" id="a-fn">2</div>
             <div class="frac-barre" style="width:56px;" id="a-fb"></div>
             <div class="frac-chiffre" id="a-fd">3</div>
           </div>
-          <div style="font-size:36px;font-weight:700;color:#b06a20;">×</div>
+          <div style="font-size:36px;font-weight:700;color:var(--gold-deep);">×</div>
+          <!-- Fraction 2 -->
           <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
             <div class="frac-chiffre" id="a-ent-n">3</div>
             <div class="frac-barre" style="width:56px;" id="a-ent-b"></div>
@@ -161,13 +836,13 @@
 
           <!-- Zone résultat (cachée au départ) -->
           <div id="zone-res" style="display:none;align-items:center;gap:16px;">
-            <div style="font-size:28px;font-weight:700;color:#0a6e3f;">=</div>
+            <div style="font-size:28px;font-weight:700;color:var(--green-dark);">=</div>
             <div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;">
               <div style="display:flex;align-items:center;gap:8px;">
                 <div class="frac-chiffre hl-vert" id="a-rn" style="opacity:0;">6</div>
                 <span class="op-tag-vert" id="tag-n">2 × 3 = 6</span>
               </div>
-              <div class="frac-barre" style="width:56px;background:#0a6e3f;opacity:0;" id="a-rb"></div>
+              <div class="frac-barre" style="width:56px;background:var(--green-dark);opacity:0;" id="a-rb"></div>
               <div style="display:flex;align-items:center;gap:8px;">
                 <div class="frac-chiffre hl-vert" id="a-rd" style="opacity:0;">15</div>
                 <span class="op-tag-vert" id="tag-d">3 × 5 = 15</span>
@@ -177,12 +852,12 @@
         </div>
 
         <div class="etape-bulle" id="etape-bulle">
-          <div class="etape-texte" id="etape-texte">Appuie sur <strong style="color:#d4820a;">Étape suivante</strong> pour commencer l'exemple.</div>
+          <div class="etape-texte" id="etape-texte">Appuie sur <strong style="color:var(--gold-deep);">Étape suivante</strong> pour commencer l'exemple.</div>
         </div>
         <button class="btn-etape" id="btn-etape" onclick="etapeSuivante()">Étape suivante →</button>
       </div>
 
-      <div class="btn-compris-wrap">
+      <div class="btn-compris-wrap" id="btn-compris-wrap" style="display:none;opacity:0;transition:opacity 0.6s ease;">
         <button class="btn-compris" onclick="allerVers('ecran-retenir','ecran-cours');setTimeout(()=>chargerEx(0),500)">Compris, on s'entraîne !</button>
       </div>
     </div>
@@ -199,34 +874,34 @@
         <div class="cours-prog-track"><div class="cours-prog-fill" id="cours-fill"></div></div>
       </div>
 
-      <div style="width:100%;background:rgba(212,130,10,0.05);border:1px solid rgba(212,130,10,0.18);border-radius:14px;padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:20px;">
+      <div id="zone-exo" style="width:100%;background:rgba(194,138,66,0.06);border:1px solid rgba(212,130,10,0.18);border-radius:14px;padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:20px;">
 
         <!-- Opération affichée -->
         <div style="display:flex;align-items:center;gap:18px;justify-content:center;flex-wrap:wrap;">
           <!-- Fraction 1 -->
           <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
-            <div style="font-size:52px;font-weight:700;color:#3d2000;line-height:1;" id="ex-fn1">1</div>
-            <div style="height:3px;background:#3d2000;border-radius:2px;width:60px;"></div>
-            <div style="font-size:52px;font-weight:700;color:#3d2000;line-height:1;" id="ex-fd1">2</div>
+            <div style="font-family:'Sora',sans-serif;font-size:52px;font-weight:700;color:var(--navy);line-height:1;letter-spacing:-.5px;" id="ex-fn1">1</div>
+            <div style="height:4px;background:var(--navy);border-radius:2px;width:66px;"></div>
+            <div style="font-family:'Sora',sans-serif;font-size:52px;font-weight:700;color:var(--navy);line-height:1;letter-spacing:-.5px;" id="ex-fd1">2</div>
           </div>
-          <div style="font-size:40px;font-weight:700;color:#b06a20;">×</div>
+          <div style="font-family:'Sora',sans-serif;font-size:40px;font-weight:700;color:var(--gold-deep);">×</div>
           <!-- Fraction 2 -->
           <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
-            <div style="font-size:52px;font-weight:700;color:#3d2000;line-height:1;" id="ex-fn2">1</div>
-            <div style="height:3px;background:#3d2000;border-radius:2px;width:60px;"></div>
-            <div style="font-size:52px;font-weight:700;color:#3d2000;line-height:1;" id="ex-fd2">3</div>
+            <div style="font-family:'Sora',sans-serif;font-size:52px;font-weight:700;color:var(--navy);line-height:1;letter-spacing:-.5px;" id="ex-fn2">1</div>
+            <div style="height:4px;background:var(--navy);border-radius:2px;width:66px;"></div>
+            <div style="font-family:'Sora',sans-serif;font-size:52px;font-weight:700;color:var(--navy);line-height:1;letter-spacing:-.5px;" id="ex-fd2">3</div>
           </div>
-          <div style="font-size:36px;font-weight:700;color:#b06a20;">=</div>
+          <div style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:var(--gold-deep);">=</div>
           <!-- Champs résultat -->
           <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
             <input type="number" id="ex-rn" class="ex-input" />
-            <div style="height:3px;background:#0a6e3f;border-radius:2px;width:76px;"></div>
+            <div style="height:3px;background:var(--green-dark);border-radius:2px;width:76px;"></div>
             <input type="number" id="ex-rd" class="ex-input" disabled />
           </div>
         </div>
 
         <div class="ex-bulle-box" id="ex-bulle">
-          <div class="ex-bulle-txt" id="ex-bulle-txt">Écris le <strong style="color:#d4820a;">numérateur</strong> du résultat.</div>
+          <div class="ex-bulle-txt" id="ex-bulle-txt">Écris le <strong style="color:var(--gold-deep);">numérateur</strong> du résultat.</div>
         </div>
         <div class="ex-fb" id="ex-fb"></div>
         <button class="btn-ex" id="ex-btn" onclick="exValider()">Valider →</button>
@@ -239,7 +914,7 @@
     <div class="carte anime">
       <div class="badge">Vérification finale</div>
       <div class="titre">Maintenant<br>prouve que tu as<br><span class="accent">bien compris !</span></div>
-      <div class="texte-intro">Tu vas voir 6 multiplications.<br>Trouve le <strong>résultat</strong> à chaque fois 💪<br><small style="color:var(--texte-vert);">Sans simplifier</small></div>
+      <div class="texte-intro">Tu vas voir 6 multiplications.<br>Trouve le <strong>résultat</strong> à chaque fois 💪<br><small>Sans simplifier</small></div>
       <button class="btn" onclick="versQuizFinal()">C'est parti !</button>
     </div>
   </div>
@@ -251,13 +926,13 @@
         <div class="prog-label" id="prog-label-f">Exercice 1 / 6</div>
         <div class="prog-track"><div class="prog-fill" id="prog-fill-f"></div></div>
       </div>
-      <div class="consigne-f">Calcule le <span style="color:var(--vert-bord);font-weight:700;">résultat</span> :</div>
+      <div class="consigne-f">Calcule le <span style="color:var(--gold-deep);font-weight:700;">résultat</span> :</div>
       <div style="display:flex;align-items:center;gap:14px;justify-content:center;flex-wrap:wrap;margin:8px 0;">
         <div id="add-quiz-f" style="display:flex;align-items:center;gap:14px;"></div>
-        <div style="font-size:34px;font-weight:700;color:var(--vert-bord);">=</div>
+        <div style="font-family:'Sora',sans-serif;font-size:34px;font-weight:700;color:var(--gold-deep);">=</div>
         <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
           <input type="number" id="quiz-rn" class="quiz-input" />
-          <div style="width:80px;height:3px;background:var(--texte-fonce);border-radius:2px;"></div>
+          <div style="width:80px;height:3px;background:var(--navy);border-radius:2px;"></div>
           <input type="number" id="quiz-rd" class="quiz-input" disabled />
         </div>
       </div>
@@ -269,7 +944,7 @@
   <!-- RÉUSSI -->
   <div class="ecran fond-vert cache" id="ecran-final-ok">
     <div class="carte anime">
-      <div class="badge" style="background:rgba(16,140,90,0.15);color:#0a6e3f;">Notion maîtrisée ✓</div>
+      <div class="badge" style="background:var(--green-l);color:var(--green-dark);border-color:rgba(21,163,98,.25);">Notion maîtrisée ✓</div>
       <div class="titre">Bravo <span class="accent" id="prenom-ok"></span> ! 🎉</div>
       <div class="texte-intro" id="texte-ok"></div>
     </div>
@@ -278,7 +953,7 @@
   <!-- À REVOIR -->
   <div class="ecran fond-vert cache" id="ecran-final-revoir">
     <div class="carte anime">
-      <div class="badge" style="background:rgba(200,50,50,0.12);color:#a83232;">À revoir</div>
+      <div class="badge" style="background:var(--red-l);color:var(--red-dark);border-color:rgba(212,38,38,.15);">À revoir</div>
       <div class="titre">Pas encore <span class="accent" id="prenom-revoir"></span>…</div>
       <div class="texte-intro" id="texte-revoir"></div>
       <button class="btn" onclick="allerVers('ecran-final-revoir','ecran-retenir');reinitAnim()">Revoir le cours</button>
@@ -288,7 +963,7 @@
   <!-- BLOQUÉ -->
   <div class="ecran fond-vert cache" id="ecran-bloque">
     <div class="carte anime">
-      <div class="badge" style="background:rgba(200,50,50,0.12);color:#a83232;">Aide en route 🙋</div>
+      <div class="badge" style="background:var(--red-l);color:var(--red-dark);border-color:rgba(212,38,38,.15);">Aide en route 🙋</div>
       <div class="titre">Ton prof va venir<br>t'aider <span class="accent" id="prenom-bloque"></span></div>
       <div class="texte-intro">Tu as fait 3 tentatives.<br>Ton enseignant a été alerté et va passer te voir.<br><br>Pas de panique, c'est normal d'avoir besoin d'aide !</div>
     </div>
@@ -306,8 +981,6 @@
   const email     = params.get('email')      || '';
   const prof      = params.get('prof')       || '';
   const profEmail = params.get('prof_email') || '';
-  // ═══ DÉTECTION AUTOMATIQUE DU MODE DYS ═══
-  // L'espace élève transmet ?dys=1 dans l'URL si l'élève a coché "DYS" à l'inscription
   const dysActif = params.get('dys') === '1';
 
   document.getElementById('header-lycee').textContent = lycee;
@@ -317,14 +990,12 @@
     document.getElementById(id).textContent = nom.split(' ')[0];
   });
 
-  // Application automatique du mode DYS au chargement
   if (dysActif) {
     document.body.classList.add('dys');
     document.getElementById('header-dys-badge').classList.add('visible');
   }
 
   let nbTentatives = 0;
-  // Les timings s'adaptent au mode DYS (feedbacks plus longs pour laisser le temps de lire)
   const TOK = () => dysActif ? 1500 : 700;
   const TKO = () => dysActif ? 2000 : 1200;
 
@@ -355,6 +1026,203 @@
   }
   verifierProgression();
 
+  // ══ MODE AUDIO GLOBAL (Web Speech API) ═══════════════════════
+  let audioMode = false;
+  let voixFr = null;
+
+  function chargerVoix() {
+    const voix = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+    voixFr = voix.find(v => v.lang.startsWith('fr') && /natural|neural|premium|google|enhanced/i.test(v.name))
+          || voix.find(v => v.lang === 'fr-FR')
+          || voix.find(v => v.lang.startsWith('fr'))
+          || null;
+  }
+  if (window.speechSynthesis) {
+    chargerVoix();
+    window.speechSynthesis.onvoiceschanged = chargerVoix;
+  }
+
+  function nettoyerPourTTS(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return (tmp.textContent || tmp.innerText || '').trim();
+  }
+
+  function parler(html, options) {
+    options = options || {};
+    if (!window.speechSynthesis) return;
+    if (!audioMode && !options.force) return;
+    window.speechSynthesis.cancel();
+    const texte = nettoyerPourTTS(html);
+    if (!texte) return;
+    const utt = new SpeechSynthesisUtterance(texte);
+    utt.lang = 'fr-FR';
+    utt.rate = 0.92;
+    utt.pitch = 1.0;
+    utt.volume = 1.0;
+    if (voixFr) utt.voice = voixFr;
+    const headerBtn = document.getElementById('header-audio-toggle');
+    const cardBtn = document.getElementById('audio-toggle-card');
+    if (audioMode) {
+      if (headerBtn) headerBtn.classList.add('speaking');
+      if (cardBtn) cardBtn.classList.add('speaking');
+    }
+    utt.onend = () => {
+      if (headerBtn) headerBtn.classList.remove('speaking');
+      if (cardBtn) cardBtn.classList.remove('speaking');
+      if (options.onEnd) options.onEnd();
+    };
+    utt.onerror = () => {
+      if (headerBtn) headerBtn.classList.remove('speaking');
+      if (cardBtn) cardBtn.classList.remove('speaking');
+      if (options.onEnd) options.onEnd();
+    };
+    window.speechSynthesis.speak(utt);
+  }
+
+  function arreterLecture() {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    const headerBtn = document.getElementById('header-audio-toggle');
+    const cardBtn = document.getElementById('audio-toggle-card');
+    if (headerBtn) headerBtn.classList.remove('speaking');
+    if (cardBtn) cardBtn.classList.remove('speaking');
+  }
+
+  function toggleAudioMode() {
+    audioMode = !audioMode;
+    const headerBtn = document.getElementById('header-audio-toggle');
+    const cardBtn = document.getElementById('audio-toggle-card');
+    if (audioMode) {
+      if (headerBtn) {
+        headerBtn.classList.add('active');
+        headerBtn.textContent = '🔊';
+        headerBtn.title = 'Désactiver la lecture audio';
+        headerBtn.setAttribute('aria-label', 'Désactiver la lecture audio');
+      }
+      if (cardBtn) {
+        cardBtn.classList.add('active');
+        cardBtn.querySelector('.ico').textContent = '🔊';
+        cardBtn.querySelector('.lbl').textContent = 'Audio activé — clique pour désactiver';
+        cardBtn.setAttribute('aria-label', 'Désactiver la lecture audio');
+      }
+    } else {
+      if (headerBtn) {
+        headerBtn.classList.remove('active', 'speaking');
+        headerBtn.textContent = '🔇';
+        headerBtn.title = 'Activer la lecture audio';
+        headerBtn.setAttribute('aria-label', 'Activer la lecture audio');
+      }
+      if (cardBtn) {
+        cardBtn.classList.remove('active', 'speaking');
+        cardBtn.querySelector('.ico').textContent = '🔇';
+        cardBtn.querySelector('.lbl').textContent = 'Activer la lecture audio';
+        cardBtn.setAttribute('aria-label', 'Activer la lecture audio');
+      }
+      arreterLecture();
+    }
+  }
+
+  // ══ TYPEWRITER POUR L'ÉCRAN "À RETENIR" ══════════════════════
+  const PARAGRAPHES_RETENIR = [
+    'Pour multiplier deux fractions, on multiplie les <strong style="color:#C28A42;">numérateurs entre eux</strong> et les <strong style="color:#C28A42;">dénominateurs entre eux</strong>.',
+    'On obtient ainsi le numérateur et le dénominateur du résultat <strong style="color:#C28A42;">en une seule étape</strong>.'
+  ];
+
+  let paraIndex = 0;
+  let twTimer = null;
+
+  function demarrerLecture() {
+    const dem = document.getElementById('demarrer-wrap');
+    dem.style.transition = 'opacity 0.3s ease';
+    dem.style.opacity = '0';
+    setTimeout(() => {
+      dem.style.display = 'none';
+      paraIndex = 0;
+      ecrireParagraphe(0);
+    }, 300);
+  }
+
+  function typewriter(elementId, html, charDelay, onDone) {
+    const el = document.getElementById(elementId);
+    el.innerHTML = '';
+    const tokens = [];
+    let i = 0;
+    while (i < html.length) {
+      if (html[i] === '<') {
+        const fin = html.indexOf('>', i);
+        if (fin === -1) { tokens.push(html[i]); i++; continue; }
+        tokens.push(html.substring(i, fin + 1));
+        i = fin + 1;
+      } else {
+        tokens.push(html[i]);
+        i++;
+      }
+    }
+    el.innerHTML = '<span class="tw-text"></span><span class="tw-cursor"></span>';
+    const txtSpan = el.querySelector('.tw-text');
+    let written = '';
+    let idx = 0;
+
+    function step() {
+      if (idx >= tokens.length) {
+        const cur = el.querySelector('.tw-cursor');
+        if (cur) cur.remove();
+        if (onDone) onDone();
+        return;
+      }
+      const tok = tokens[idx];
+      if (tok.startsWith('<')) {
+        written += tok;
+        idx++;
+        txtSpan.innerHTML = written;
+        step();
+      } else {
+        written += tok;
+        idx++;
+        txtSpan.innerHTML = written;
+        twTimer = setTimeout(step, charDelay);
+      }
+    }
+    step();
+  }
+
+  function ecrireParagraphe(i) {
+    document.getElementById('suivant-wrap').style.display = 'none';
+    const id = 'para-' + (i + 1);
+    parler(PARAGRAPHES_RETENIR[i]);
+    typewriter(id, PARAGRAPHES_RETENIR[i], 35, () => {
+      if (i < PARAGRAPHES_RETENIR.length - 1) {
+        const wrap = document.getElementById('suivant-wrap');
+        wrap.style.display = 'flex';
+        wrap.style.animation = 'none';
+        wrap.offsetHeight;
+        wrap.style.animation = '';
+      } else {
+        afficherAnimEtCompris();
+      }
+    });
+  }
+
+  function suivantPara() {
+    arreterLecture();
+    paraIndex++;
+    if (paraIndex < PARAGRAPHES_RETENIR.length) {
+      ecrireParagraphe(paraIndex);
+    }
+  }
+
+  function afficherAnimEtCompris() {
+    const anim = document.getElementById('anim-section');
+    const compris = document.getElementById('btn-compris-wrap');
+    anim.style.display = 'flex';
+    compris.style.display = 'flex';
+    anim.offsetHeight;
+    setTimeout(() => {
+      anim.style.opacity = '1';
+      setTimeout(() => { compris.style.opacity = '1'; }, 250);
+    }, 50);
+  }
+
   // ── ANIMATION COURS ─────────────────────────────────────────
   let etapeActuelle = 0;
 
@@ -384,9 +1252,20 @@
     document.getElementById('zone-res').style.display = 'none';
     ['a-rn','a-rb','a-rd'].forEach(id => { const el=document.getElementById(id); if(el){el.style.opacity='0';el.style.animation='';} });
     ['tag-n','tag-d'].forEach(id => { const el=document.getElementById(id); if(el){el.style.display='none';el.style.animation='';} });
-    document.getElementById('etape-texte').innerHTML = "Appuie sur <strong style='color:#d4820a;'>Étape suivante</strong> pour commencer l'exemple.";
+    document.getElementById('etape-texte').innerHTML = "Appuie sur <strong style='color:var(--gold-deep);'>Étape suivante</strong> pour commencer l'exemple.";
     const btn = document.getElementById('btn-etape');
     btn.textContent = 'Étape suivante →'; btn.classList.remove('recommencer'); btn.onclick = etapeSuivante;
+    // Réinitialiser aussi le typewriter de la règle
+    document.getElementById('demarrer-wrap').style.display = 'flex';
+    document.getElementById('demarrer-wrap').style.opacity = '1';
+    document.getElementById('para-1').innerHTML = '';
+    document.getElementById('para-2').innerHTML = '';
+    document.getElementById('suivant-wrap').style.display = 'none';
+    document.getElementById('anim-section').style.display = 'none';
+    document.getElementById('anim-section').style.opacity = '0';
+    document.getElementById('btn-compris-wrap').style.display = 'none';
+    document.getElementById('btn-compris-wrap').style.opacity = '0';
+    paraIndex = 0;
   }
 
   function etapeSuivante() {
@@ -397,6 +1276,7 @@
     bulle.style.animation = 'none'; bulle.offsetHeight;
     bulle.style.animation = 'slideUp 0.4s cubic-bezier(.22,1,.36,1) both';
     document.getElementById('etape-texte').innerHTML = e.texte;
+    parler(e.texte);
     etapeActuelle++;
     if (e.dernier) {
       const btn = document.getElementById('btn-etape');
@@ -424,20 +1304,25 @@
     b.style.animation = 'none'; b.offsetHeight;
     b.style.animation = 'slideUp 0.4s cubic-bezier(.22,1,.36,1) both';
     document.getElementById('ex-bulle-txt').innerHTML = html;
+    parler(html);
   }
   function setFb(txt, ok) {
     const fb = document.getElementById('ex-fb');
     fb.textContent = txt;
-    fb.style.background = ok ? 'rgba(16,140,90,0.15)' : 'rgba(200,50,50,0.12)';
-    fb.style.color = ok ? '#0a6e3f' : '#a83232';
+    fb.style.background = ok ? 'rgba(21,163,98,0.13)' : 'rgba(212,38,38,0.10)';
+    fb.style.color = ok ? 'var(--green-dark)' : 'var(--red-dark)';
     fb.style.opacity = '1';
+    parler(txt);
   }
   function hideFb() { document.getElementById('ex-fb').style.opacity = '0'; }
   function focusEl(id) { setTimeout(()=>{ const el=document.getElementById(id); if(el) el.focus(); }, 200); }
   function lockOk(id) {
     const el=document.getElementById(id);
     if(!el) return;
-    el.disabled=true; el.style.borderColor='rgba(16,140,90,0.5)'; el.style.background='rgba(16,140,90,0.07)'; el.style.color='#0a6e3f';
+    el.disabled=true;
+    el.style.borderColor='rgba(21,163,98,.45)';
+    el.style.background='rgba(21,163,98,.07)';
+    el.style.color='var(--green-dark)';
   }
 
   function chargerEx(ai) {
@@ -451,13 +1336,13 @@
     document.getElementById('ex-fd2').textContent = a.d2;
     const rn = document.getElementById('ex-rn');
     const rd = document.getElementById('ex-rd');
-    rn.value=''; rn.disabled=false; rn.style.borderColor='rgba(16,140,90,0.35)'; rn.style.background='rgba(255,255,255,0.85)'; rn.style.color='#0a6e3f';
-    rd.value=''; rd.disabled=true;  rd.style.borderColor='rgba(16,140,90,0.35)'; rd.style.background='rgba(255,255,255,0.85)'; rd.style.color='#0a6e3f';
+    rn.value=''; rn.disabled=false; rn.style.borderColor='var(--border)'; rn.style.background='rgba(255,255,255,.85)'; rn.style.color='var(--navy)';
+    rd.value=''; rd.disabled=true;  rd.style.borderColor='var(--border)'; rd.style.background='rgba(255,255,255,.85)'; rd.style.color='var(--navy)';
     // Nettoyer la zone simplification si elle existe
     const oldZone = document.getElementById('simplif-zone');
     if (oldZone) oldZone.remove();
     hideFb();
-    setBulle('Écris le <strong style="color:#d4820a;">numérateur</strong> du résultat.');
+    setBulle('Écris le <strong style="color:var(--gold-deep);">numérateur</strong> du résultat.');
     document.getElementById('ex-btn').textContent = 'Valider →';
     document.getElementById('ex-btn').onclick = exValider;
     focusEl('ex-rn');
@@ -472,39 +1357,47 @@
 
     if (exEtape === 0) {
       // Valider numérateur
-      const val = parseInt(document.getElementById('ex-rn').value);
-      if (isNaN(val)) return;
+      const rnEl = document.getElementById('ex-rn');
+      if (rnEl.disabled) return;
+      const raw = rnEl.value.trim();
+      if (raw === '') { focusEl('ex-rn'); return; }
+      const val = parseInt(raw, 10);
+      if (isNaN(val)) { focusEl('ex-rn'); return; }
       if (val !== a.rn) {
         setFb('✗ Non — ' + a.n1 + ' × ' + a.n2 + ' = ' + a.rn + '. Réessaie.', false);
-        document.getElementById('ex-rn').value = ''; focusEl('ex-rn'); return;
+        rnEl.value = ''; focusEl('ex-rn'); return;
       }
       lockOk('ex-rn'); setFb('✓ Exact ! Maintenant le dénominateur.', true); exBloque = true;
       setTimeout(() => {
         exBloque = false; hideFb();
-        setBulle('Maintenant multiplie les <strong style="color:#d4820a;">dénominateurs</strong> : ' + a.d1 + ' × ' + a.d2 + '. Écris le résultat.');
-        document.getElementById('ex-rd').disabled = false;
-        document.getElementById('ex-rd').style.borderColor = 'rgba(16,140,90,0.35)';
-        focusEl('ex-rd');
         exEtape = 1;
+        setBulle('Maintenant multiplie les <strong style="color:var(--gold-deep);">dénominateurs</strong> : ' + a.d1 + ' × ' + a.d2 + '. Écris le résultat.');
+        const rd = document.getElementById('ex-rd');
+        rd.disabled = false;
+        rd.style.borderColor = 'var(--border)';
+        focusEl('ex-rd');
       }, TOK());
 
     } else if (exEtape === 1) {
       // Valider dénominateur
-      const val = parseInt(document.getElementById('ex-rd').value);
-      if (isNaN(val)) return;
+      const rdEl = document.getElementById('ex-rd');
+      if (rdEl.disabled) return;
+      const raw = rdEl.value.trim();
+      if (raw === '') { focusEl('ex-rd'); return; }
+      const val = parseInt(raw, 10);
+      if (isNaN(val)) { focusEl('ex-rd'); return; }
       if (val !== a.rd) {
         setFb('✗ Non — ' + a.d1 + ' × ' + a.d2 + ' = ' + a.rd + '. Réessaie.', false);
-        document.getElementById('ex-rd').value = ''; focusEl('ex-rd'); return;
+        rdEl.value = ''; focusEl('ex-rd'); return;
       }
       lockOk('ex-rd'); setFb('✓ Bravo ! ' + a.rn + '/' + a.rd + ' 🎉', true); exBloque = true;
       setTimeout(() => {
         exBloque = false; hideFb();
         if (a.simplifiable) {
-          // Afficher zone simplification
-          setBulle('✓ <strong style="color:#0a6e3f;">' + a.n1 + '/' + a.d1 + ' × ' + a.n2 + '/' + a.d2 + ' = ' + a.rn + '/' + a.rd + '</strong><br><br>Ce résultat peut se <strong style="color:var(--or);">simplifier</strong> ! Écris la fraction irréductible.');
+          setBulle('✓ <strong style="color:var(--green-dark);">' + a.n1 + '/' + a.d1 + ' × ' + a.n2 + '/' + a.d2 + ' = ' + a.rn + '/' + a.rd + '</strong><br><br>Ce résultat peut se <strong style="color:var(--gold-deep);">simplifier</strong> ! Écris la fraction irréductible.');
           afficherZoneSimplif(a);
         } else {
-          setBulle('🎉 <strong style="color:#0a6e3f;">' + a.n1 + '/' + a.d1 + ' × ' + a.n2 + '/' + a.d2 + ' = ' + a.rn + '/' + a.rd + '</strong>');
+          setBulle('🎉 <strong style="color:var(--green-dark);">' + a.n1 + '/' + a.d1 + ' × ' + a.n2 + '/' + a.d2 + ' = ' + a.rn + '/' + a.rd + '</strong>');
           const btn = document.getElementById('ex-btn');
           btn.textContent = 'Exercice suivant →';
           btn.onclick = suiteEx;
@@ -514,25 +1407,24 @@
   }
 
   function afficherZoneSimplif(a) {
-    // Ajouter les champs de simplification sous le bloc exercice
     let zone = document.getElementById('simplif-zone');
     if (!zone) {
       zone = document.createElement('div');
       zone.id = 'simplif-zone';
       zone.style.cssText = 'width:100%;display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:8px;animation:fadeIn 0.4s both;';
-      document.querySelector('#ecran-cours .cours-carte > div:last-child').appendChild(zone);
+      document.getElementById('zone-exo').appendChild(zone);
     }
     zone.innerHTML =
       '<div style="display:flex;align-items:center;gap:14px;justify-content:center;flex-wrap:wrap;">' +
         '<div style="display:flex;flex-direction:column;align-items:center;gap:4px;">' +
-          '<div style="font-size:40px;font-weight:700;color:#b06a20;line-height:1;">' + a.rn + '</div>' +
-          '<div style="height:3px;background:#b06a20;border-radius:2px;width:54px;"></div>' +
-          '<div style="font-size:40px;font-weight:700;color:#b06a20;line-height:1;">' + a.rd + '</div>' +
+          '<div style="font-family:\'Sora\',sans-serif;font-size:40px;font-weight:700;color:var(--gold-deep);line-height:1;letter-spacing:-.5px;">' + a.rn + '</div>' +
+          '<div style="height:3px;background:var(--gold-deep);border-radius:2px;width:54px;"></div>' +
+          '<div style="font-family:\'Sora\',sans-serif;font-size:40px;font-weight:700;color:var(--gold-deep);line-height:1;letter-spacing:-.5px;">' + a.rd + '</div>' +
         '</div>' +
-        '<div style="font-size:28px;font-weight:700;color:#b06a20;">=</div>' +
+        '<div style="font-family:\'Sora\',sans-serif;font-size:28px;font-weight:700;color:var(--gold-deep);">=</div>' +
         '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;">' +
           '<input type="number" id="simplif-n" class="ex-input" />' +
-          '<div style="height:3px;background:#0a6e3f;border-radius:2px;width:76px;"></div>' +
+          '<div style="height:3px;background:var(--green-dark);border-radius:2px;width:76px;"></div>' +
           '<input type="number" id="simplif-d" class="ex-input" disabled />' +
         '</div>' +
       '</div>';
@@ -547,29 +1439,46 @@
 
   function valSimplif(a) {
     if (exBloque) return;
+
     if (exEtape === 2) {
-      const val = parseInt(document.getElementById('simplif-n').value);
-      if (isNaN(val)) return;
+      // Valider le numérateur simplifié
+      const snEl = document.getElementById('simplif-n');
+      if (!snEl || snEl.disabled) return;
+      const raw = snEl.value.trim();
+      if (raw === '') { focusEl('simplif-n'); return; }
+      const val = parseInt(raw, 10);
+      if (isNaN(val)) { focusEl('simplif-n'); return; }
       if (val !== a.sn) {
         setFb('✗ Non — le numérateur simplifié est ' + a.sn + '.', false);
-        document.getElementById('simplif-n').value = ''; focusEl('simplif-n'); return;
+        snEl.value = ''; focusEl('simplif-n'); return;
       }
       lockOk('simplif-n');
       const sd = document.getElementById('simplif-d');
-      sd.disabled = false; sd.style.borderColor = 'rgba(16,140,90,0.35)';
+      sd.disabled = false; sd.style.borderColor = 'var(--border)';
       setFb('✓ Exact ! Maintenant le dénominateur.', true); exBloque = true;
-      setTimeout(() => { exBloque = false; hideFb(); focusEl('simplif-d'); exEtape = 3; }, TOK());
+      setTimeout(() => {
+        exBloque = false; hideFb();
+        exEtape = 3;
+        focusEl('simplif-d');
+      }, TOK());
+
     } else if (exEtape === 3) {
-      const val = parseInt(document.getElementById('simplif-d').value);
-      if (isNaN(val)) return;
+      // Valider le dénominateur simplifié
+      const sdEl = document.getElementById('simplif-d');
+      if (!sdEl || sdEl.disabled) return;
+      const raw = sdEl.value.trim();
+      if (raw === '') { focusEl('simplif-d'); return; }
+      const val = parseInt(raw, 10);
+      if (isNaN(val)) { focusEl('simplif-d'); return; }
       if (val !== a.sd) {
         setFb('✗ Non — le dénominateur simplifié est ' + a.sd + '.', false);
-        document.getElementById('simplif-d').value = ''; focusEl('simplif-d'); return;
+        sdEl.value = ''; focusEl('simplif-d'); return;
       }
       lockOk('simplif-d'); setFb('✓ Parfait ! ' + a.rn + '/' + a.rd + ' = ' + a.sn + '/' + a.sd + ' ✓', true); exBloque = true;
       setTimeout(() => {
         exBloque = false; hideFb();
-        setBulle('🎉 <strong style="color:#0a6e3f;">' + a.n1 + '/' + a.d1 + ' × ' + a.n2 + '/' + a.d2 + ' = ' + a.rn + '/' + a.rd + ' = ' + a.sn + '/' + a.sd + '</strong>');
+        exEtape = 4;
+        setBulle('🎉 <strong style="color:var(--green-dark);">' + a.n1 + '/' + a.d1 + ' × ' + a.n2 + '/' + a.d2 + ' = ' + a.rn + '/' + a.rd + ' = ' + a.sn + '/' + a.sd + '</strong>');
         const btn = document.getElementById('ex-btn');
         btn.textContent = 'Exercice suivant →';
         btn.onclick = suiteEx;
@@ -585,15 +1494,17 @@
 
   // ── QUIZ FINAL ───────────────────────────────────────────────
   let qFIdx = 0, bloqueF = false, bonnesF = 0;
+  let numEtaitJusteF = false; // flag : le numérateur était-il bon ? (on attend les 2 saisies avant de compter)
 
   function versQuizFinal() {
     allerVers('ecran-transition-final','ecran-quiz-final');
-    qFIdx = 0; bonnesF = 0; bloqueF = false;
+    qFIdx = 0; bonnesF = 0; bloqueF = false; numEtaitJusteF = false;
     setTimeout(() => chargerQF(0), 500);
   }
 
   function chargerQF(i) {
     bloqueF = false;
+    numEtaitJusteF = false;
     const a = EXERCICES[ORDRE_FINAL[i]];
     document.getElementById('prog-label-f').textContent = 'Exercice ' + (i+1) + ' / ' + EXERCICES.length;
     document.getElementById('prog-fill-f').style.width = (i / EXERCICES.length * 100) + '%';
@@ -601,8 +1512,8 @@
     document.getElementById('feedback-f').innerHTML = '';
     const rn = document.getElementById('quiz-rn');
     const rd = document.getElementById('quiz-rd');
-    rn.value=''; rn.disabled=false; rn.style.borderColor='rgba(10,110,63,0.3)'; rn.style.background='rgba(255,255,255,0.8)';
-    rd.value=''; rd.disabled=true;  rd.style.borderColor='rgba(10,110,63,0.3)'; rd.style.background='rgba(255,255,255,0.8)';
+    rn.value=''; rn.disabled=false; rn.style.borderColor='var(--border)'; rn.style.background='rgba(255,255,255,.85)';
+    rd.value=''; rd.disabled=true;  rd.style.borderColor='var(--border)'; rd.style.background='rgba(255,255,255,.85)';
     document.getElementById('add-quiz-f').innerHTML =
       '<div class="fq"><div class="fq-n">' + a.n1 + '</div><div class="fq-b"></div><div class="fq-d">' + a.d1 + '</div></div>' +
       '<div class="op-q">×</div>' +
@@ -610,6 +1521,7 @@
     setTimeout(() => rn.focus(), 200);
     rn.onkeydown = ev => { if(ev.key==='Enter') repondreFinal(); };
     rd.onkeydown = ev => { if(ev.key==='Enter') repondreFinal(); };
+    parler('Calcule le résultat : ' + a.n1 + ' sur ' + a.d1 + ' multiplié par ' + a.n2 + ' sur ' + a.d2);
   }
 
   function repondreFinal() {
@@ -617,41 +1529,54 @@
     const a = EXERCICES[ORDRE_FINAL[qFIdx]];
     const rnEl = document.getElementById('quiz-rn');
     const rdEl = document.getElementById('quiz-rd');
-    const fb = document.getElementById('feedback-f');
 
+    // ── Étape 1 : saisie du numérateur ──
+    // On accepte la valeur même si elle est fausse, mais on enregistre si elle était juste
     if (!rnEl.disabled && rdEl.disabled) {
-      const vn = parseInt(rnEl.value);
-      if (isNaN(vn)) return;
-      if (vn !== a.rn) {
-        fb.textContent = '✗ Non, le numérateur est ' + a.rn + '.';
-        fb.className = 'feedback nok'; rnEl.value=''; rnEl.focus(); return;
-      }
-      rnEl.disabled=true; rnEl.style.borderColor='rgba(10,110,63,0.5)'; rnEl.style.background='rgba(16,140,90,0.07)';
-      rdEl.disabled=false; rdEl.style.borderColor='rgba(10,110,63,0.3)';
-      fb.textContent = '✓ Exact ! Maintenant le dénominateur.'; fb.className = 'feedback ok';
-      setTimeout(() => { rdEl.focus(); fb.className='feedback'; fb.innerHTML=''; }, TOK());
+      const raw = rnEl.value.trim();
+      if (raw === '') { rnEl.focus(); return; }
+      const vn = parseInt(raw, 10);
+      if (isNaN(vn)) { rnEl.focus(); return; }
+      numEtaitJusteF = (vn === a.rn);
+      rnEl.disabled = true;
+      rnEl.style.borderColor = 'rgba(20,19,16,.10)';
+      rnEl.style.background = 'rgba(255,255,255,.85)';
+      rdEl.disabled = false;
+      rdEl.style.borderColor = 'var(--border)';
+      rdEl.focus();
       return;
     }
 
-    const vd = parseInt(rdEl.value);
-    if (isNaN(vd)) return;
+    // ── Étape 2 : saisie du dénominateur ──
+    // On accepte la valeur, on compte la question juste seulement si num ET dénom étaient corrects
+    if (rdEl.disabled) return;
+    const raw = rdEl.value.trim();
+    if (raw === '') { rdEl.focus(); return; }
+    const vd = parseInt(raw, 10);
+    if (isNaN(vd)) { rdEl.focus(); return; }
     bloqueF = true;
-    if (vd !== a.rd) {
-      fb.textContent = '✗ Non, le dénominateur est ' + a.rd + '.';
-      fb.className = 'feedback nok'; bloqueF=false; rdEl.value=''; rdEl.focus(); return;
+    rdEl.disabled = true;
+    rdEl.style.borderColor = 'rgba(20,19,16,.10)';
+    rdEl.style.background = 'rgba(255,255,255,.85)';
+    const denEtaitJuste = (vd === a.rd);
+    if (numEtaitJusteF && denEtaitJuste) {
+      bonnesF++;
     }
-    rdEl.disabled=true; rdEl.style.borderColor='rgba(10,110,63,0.5)'; rdEl.style.background='rgba(16,140,90,0.07)';
-    bonnesF++;
-    fb.textContent = '✓ Bravo !'; fb.className = 'feedback ok';
+    // On enchaîne directement, sans feedback (le résultat global s'affiche à la fin)
     setTimeout(() => {
       qFIdx++;
       if (qFIdx >= EXERCICES.length) finalResultat();
       else {
         const z = document.getElementById('add-quiz-f');
-        z.style.opacity='0'; z.style.transition='opacity 0.3s';
-        setTimeout(() => { chargerQF(qFIdx); z.style.opacity='1'; bloqueF=false; }, 300);
+        z.style.opacity = '0';
+        z.style.transition = 'opacity 0.3s';
+        setTimeout(() => {
+          chargerQF(qFIdx);
+          z.style.opacity = '1';
+          bloqueF = false;
+        }, 300);
       }
-    }, TOK());
+    }, 250);
   }
 
   function finalResultat() {
@@ -659,7 +1584,7 @@
     nbTentatives++;
     if (score >= 80) {
       sauvegarder('quiz_final_valide', score, nbTentatives);
-      document.getElementById('texte-ok').innerHTML = 'Tu as eu <strong style="color:var(--vert-bord);">' + bonnesF + ' / ' + EXERCICES.length + '</strong> bonnes réponses. Tu sais multiplier deux fractions entre elles ! 🎉';
+      document.getElementById('texte-ok').innerHTML = 'Tu as eu <strong style="color:var(--green-dark);">' + bonnesF + ' / ' + EXERCICES.length + '</strong> bonnes réponses. Tu sais multiplier deux fractions entre elles ! 🎉';
       allerVers('ecran-quiz-final','ecran-final-ok');
     } else if (nbTentatives >= MAX_TENTATIVES) {
       sauvegarder('echec_3_tentatives', score, nbTentatives, { prof_email:profEmail });
